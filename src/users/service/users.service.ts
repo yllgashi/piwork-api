@@ -1,13 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Login } from './models/login.model';
-import { Register } from './models/register.model';
-import { User } from './models/user.model';
+import { Login } from '../models/login.model';
+import { Register } from '../models/register.model';
+import { User } from '../models/user.model';
 
 // This should be a real class/interface representing a user entity
 
 @Injectable()
-export class AuthService {
+export class UsersService {
   private readonly users: User[] = [
     {
       id: '1',

@@ -9,7 +9,7 @@ export class DatabaseService {
   constructor() {}
 
   async query(queryString) {
-    const pool = new sql.ConnectionPool(mssqlconfig);
+    const pool = new sql.ConnectionPool(mssqlconfig());
     await pool.connect();
     const result = await pool.query(queryString);
     pool.close();
@@ -21,7 +21,7 @@ export class DatabaseService {
     inputParams: { name: string; value: any }[] = [],
     outputParams: { name: string; value: any }[] = [],
   ) {
-    const pool = new sql.ConnectionPool(mssqlconfig);
+    const pool = new sql.ConnectionPool(mssqlconfig());
     await pool.connect();
 
     // create request
