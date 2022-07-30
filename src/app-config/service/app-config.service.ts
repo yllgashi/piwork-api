@@ -1,17 +1,17 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { Config } from '../model/config.model';
-import { ConfigRepository } from '../repository/config.repository';
+import { AppConfig } from '../model/app-config.model';
+import { AppConfigRepository } from '../repository/app-config.repository';
 
 @Injectable()
-export class ConfigService {
-  constructor(private readonly configRepository: ConfigRepository) {}
+export class AppConfigService {
+  constructor(private readonly configRepository: AppConfigRepository) {}
 
   async getValue(key: string): Promise<any> {
     if (!key) throw new HttpException('', HttpStatus.BAD_REQUEST);
     return this.configRepository.getValue(key);
   }
 
-  async createConfig(userId: number, config: Config) {
+  async createConfig(userId: number, config: AppConfig) {
     if (!userId) throw new HttpException('', HttpStatus.UNAUTHORIZED);
     return this.configRepository.createConfig(userId, config);
   }

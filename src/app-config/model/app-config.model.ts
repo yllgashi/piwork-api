@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class Config {
+export class AppConfig {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()

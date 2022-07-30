@@ -1,14 +1,15 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Auth } from 'src/shared/decorators/auth.decorator';
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
-import { Config } from '../model/config.model';
-import { ConfigService } from '../service/config.service';
+import { AppConfig } from '../model/app-config.model';
+import { AppConfigService } from '../service/app-config.service';
 
 @ApiBearerAuth()
-@Controller('config')
-export class ConfigController {
-  constructor(private readonly configService: ConfigService) {}
+@ApiTags('Gallery')
+@Controller('app-config')
+export class AppConfigController {
+  constructor(private readonly configService: AppConfigService) {}
 
   @Auth()
   @Get(':key')
@@ -20,7 +21,7 @@ export class ConfigController {
   @Post()
   async createConfig(
     @CurrentUser('userId') userId: number,
-    @Body() config: Config,
+    @Body() config: AppConfig,
   ) {
     return this.configService.createConfig(userId, config);
   }

@@ -4,9 +4,10 @@ import { Auth } from 'src/shared/decorators/auth.decorator';
 import { UsersService } from '../service/users.service';
 import { Login } from '../models/login.model';
 import { Register } from '../models/register.model';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiBearerAuth()
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

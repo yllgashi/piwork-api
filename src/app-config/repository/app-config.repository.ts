@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/shared/database/database.service';
-import { Config } from '../model/config.model';
+import { AppConfig } from '../model/app-config.model';
 
 @Injectable()
-export class ConfigRepository {
+export class AppConfigRepository {
   constructor(private readonly databaseService: DatabaseService) {}
 
   async getValue(key: string): Promise<any> {
@@ -14,7 +14,7 @@ export class ConfigRepository {
     return data.result;
   }
 
-  async createConfig(userId: number, config: Config) {
+  async createConfig(userId: number, config: AppConfig) {
     const { key, value } = config;
     const data = await this.databaseService.execProcedure(
       'App.usp_Config_Insert',
