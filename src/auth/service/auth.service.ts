@@ -4,28 +4,20 @@ import { Login } from '../models/login.model';
 import { Register } from '../models/register.model';
 import { User } from '../models/user.model';
 
-// This should be a real class/interface representing a user entity
-
 @Injectable()
-export class UsersService {
+export class AuthService {
   private readonly users: User[] = [
     {
       id: '1',
-      email: 'test1@test.com',
+      email: 'yll@gashi.com',
       password: 'changeme',
-      roles: ['admin'],
+      role: 'Admin',
     },
     {
       id: '2',
-      email: 'test2@test.com',
-      password: 'guess',
-      roles: ['client'],
-    },
-    {
-      id: '3',
-      email: 'test3@test.com',
-      password: 'guess',
-      roles: ['client', 'admin'],
+      email: 'test@test.com',
+      password: 'changeme',
+      role: 'Client',
     },
   ];
 
@@ -37,7 +29,7 @@ export class UsersService {
     if (!user)
       throw new HttpException('User does not exists', HttpStatus.NOT_FOUND);
 
-    const jwtData = { userId: user.id, email: user.email, roles: user.roles };
+    const jwtData = { userId: user.id, email: user.email };
 
     return {
       access_token: this.jwtService.sign(jwtData),
@@ -52,8 +44,8 @@ export class UsersService {
     const user: User = await this.createUser({
       email: registerUser.email,
       password: registerUser.password,
-      roles: ['client'],
       id: Date.now().toString(),
+      role: 'client',
     });
 
     if (!user)
@@ -62,7 +54,7 @@ export class UsersService {
         HttpStatus.SERVICE_UNAVAILABLE,
       );
 
-    const jwtData = { userId: user.id, email: user.email, roles: user.roles };
+    const jwtData = { userId: user.id, email: user.email };
 
     return {
       access_token: this.jwtService.sign(jwtData),
@@ -77,9 +69,5 @@ export class UsersService {
 
   async findByEmail(email: string): Promise<User | undefined> {
     return this.users.find((user) => user.email === email);
-  }
-
-  async getUsers(): Promise<User[]> {
-    return [...this.users];
   }
 }
