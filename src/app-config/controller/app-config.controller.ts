@@ -6,7 +6,7 @@ import { AppConfig } from '../model/app-config.model';
 import { AppConfigService } from '../service/app-config.service';
 
 @ApiBearerAuth()
-@ApiTags('Gallery')
+@ApiTags('AppConfig')
 @Controller('app-config')
 export class AppConfigController {
   constructor(private readonly configService: AppConfigService) {}
