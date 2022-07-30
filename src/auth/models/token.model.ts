@@ -1,8 +1,7 @@
-export class User {
-  id: string;
+export interface Token {
+  userId: string;
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
   role: string;
 }
