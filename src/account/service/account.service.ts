@@ -6,7 +6,14 @@ import { AccountRepository } from '../repository/account.repository';
 export class AccountService {
   constructor(private accountRepository: AccountRepository) {}
 
-  async getUserExperience(userId: number): Promise<UserExperience> {
+  async getUserExperience(userId: number): Promise<UserExperience[]> {
     return await this.accountRepository.getUserExperience(userId);
+  }
+
+  async createUserExperience(userId: number, experience: UserExperience) {
+    return await this.accountRepository.createUserExperience(
+      userId,
+      experience,
+    );
   }
 }

@@ -6,30 +6,49 @@ import { UserExperience } from '../model/user-experience.model';
 export class AccountRepository {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  async getUserExperience(userId: number): Promise<UserExperience> {
+  async getUserExperience(userId: number): Promise<UserExperience[]> {
     const inputParams = [{ name: 'userId', value: userId }];
     const data = await this.databaseService.execProcedure(
       'Work.usp_Experience_GetForUser',
       inputParams,
     );
-    const userExperience: UserExperience = this.mapUserExperience(
-      data.result[0],
+    const userExperience: UserExperience[] = this.mapUserExperience(
+      data.result,
     );
     return userExperience;
   }
 
-  //#region mappers
+  async createUserExperience(userId: number, experience: UserExperience) {
+    const { workplaceName, description, startDate, endDate } = experience;
+    const inputParams = [
+      { name: 'userId', value: userId },
+      { name: 'workplaceName', value: workplaceName },
+      { name: 'description', value: description },
+      { name: 'startDate', value: startDate },
+      { name: 'endDate', value: endDate },
+    ];
+    const data = await this.databaseService.execProcedure(
+      'Work.usp_Experience_Insert',
+      inputParams,
+    );
 
-  private mapUserExperience(queryResult: any): UserExperience {
-    const { Id, WorkplaceName, Description, StartDate, EndDate } = queryResult;
-    const userExperience: UserExperience = {
-      id: Id,
-      workplaceName: WorkplaceName,
-      description: Description,
-      startDate: StartDate,
-      endDate: EndDate,
-    };
-    return userExperience;
+    return {};
+  }
+
+  //#region mappers
+  private mapUserExperience(queryResult: any): UserExperience[] {
+    let userExperiences: UserExperience[] = queryResult.map((e) => {
+      const { Id, WorkplaceName, Description, StartDate, EndDate } = e;
+      const experience: UserExperience = {
+        id: Id,
+        workplaceName: WorkplaceName,
+        description: Description,
+        startDate: StartDate,
+        endDate: EndDate,
+      };
+      return experience;
+    });
+    return userExperiences;
   }
   //#endregion mappers
 }
