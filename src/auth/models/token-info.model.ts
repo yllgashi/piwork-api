@@ -1,8 +1,7 @@
-export class User {
-  id: string;
+export class TokenInfo {
+  userId: number;
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
   role: string;
 }
