@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Auth } from 'src/shared/decorators/auth.decorator';
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
@@ -26,5 +26,11 @@ export class AccountController {
     @Body() experience: UserExperience,
   ) {
     return await this.accountService.createUserExperience(userId, experience);
+  }
+
+  @Auth()
+  @Delete('experience/:id')
+  async deleteUserExperience(@Param('id') id: number) {
+    return await this.accountService.deleteUserExperience(id);
   }
 }

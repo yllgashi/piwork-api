@@ -35,6 +35,16 @@ export class AccountRepository {
     return {};
   }
 
+  async deleteUserExperience(id: number) {
+    const inputParams = [{ name: 'experienceId', value: id }];
+    const data = await this.databaseService.execProcedure(
+      'Work.usp_Experience_DeleteForUser',
+      inputParams,
+    );
+
+    return {};
+  }
+
   //#region mappers
   private mapUserExperience(queryResult: any): UserExperience[] {
     let userExperiences: UserExperience[] = queryResult.map((e) => {

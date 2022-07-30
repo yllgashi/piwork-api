@@ -16,4 +16,8 @@ export class AccountService {
       experience,
     );
   }
+
+  async deleteUserExperience(id: number) {
+    return await this.accountRepository.deleteUserExperience(id);
+  }
 }
