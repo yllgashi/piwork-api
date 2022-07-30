@@ -11,7 +11,7 @@ export class AppConfigRepository {
       'App.usp_Config_Get',
       [{ name: 'key', value: key }],
     );
-    return data.result;
+    return data.result[0];
   }
 
   async createConfig(userId: number, config: AppConfig) {
