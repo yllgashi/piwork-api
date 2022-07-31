@@ -6,7 +6,7 @@ import { AppConfigRepository } from './repository/app-config.repository';
 
 @Module({
   imports: [SharedModule],
-  controllers: [AppConfigController, AppConfigController],
+  controllers: [AppConfigController],
   providers: [AppConfigService, AppConfigRepository],
 })
 export class AppConfigModule {}
