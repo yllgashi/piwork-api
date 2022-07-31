@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Field } from '../model/field.model';
 import { Technology } from '../model/technology.model';
 import { TechnologyRepository } from '../repository/technology.repository';
 
@@ -6,7 +7,11 @@ import { TechnologyRepository } from '../repository/technology.repository';
 export class TechnologyService {
   constructor(private technologyRepository: TechnologyRepository) {}
 
-  async getAll(): Promise<Technology> {
-    return await this.technologyRepository.getAll();
+  async getAllTechnologies(): Promise<Technology[]> {
+    return await this.technologyRepository.getAllTechnologies();
+  }
+
+  async getAllFields(): Promise<Field[]> {
+    return await this.technologyRepository.getAllFields();
   }
 }

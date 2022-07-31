@@ -20,4 +20,23 @@ export class AccountService {
   async deleteUserExperience(id: number) {
     return await this.accountRepository.deleteUserExperience(id);
   }
+
+  async getUserFields(userId: number) {
+    return await this.accountRepository.getUserFields(userId);
+  }
+
+  async createUserTechnology(userId: number, technologyId: number) {
+    return await this.accountRepository.createUserTechnology(
+      userId,
+      technologyId,
+    );
+  }
+
+  async deleteUserTechnology(userId: number, technologyId: number) {
+    return await this.accountRepository.deleteUserTechnology(userId, technologyId);
+  }
+
+  async getUserTechnologies(userId: number) {
+    return await this.accountRepository.getUserTechnologies(userId);
+  }
 }

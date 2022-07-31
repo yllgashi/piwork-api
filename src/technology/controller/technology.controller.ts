@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Auth } from 'src/shared/decorators/auth.decorator';
+import { Field } from '../model/field.model';
 import { Technology } from '../model/technology.model';
 import { TechnologyService } from '../service/technology.service';
 
@@ -12,7 +13,13 @@ export class TechnologyController {
 
   @Auth()
   @Get('')
-  async register(): Promise<Technology> {
-    return await this.technologyService.getAll();
+  async getAllTechnologies(): Promise<Technology[]> {
+    return await this.technologyService.getAllTechnologies();
+  }
+
+  @Auth()
+  @Get('fields')
+  async getAllFields(): Promise<Field[]> {
+    return await this.technologyService.getAllFields();
   }
 }

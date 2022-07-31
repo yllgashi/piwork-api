@@ -33,4 +33,34 @@ export class AccountController {
   async deleteUserExperience(@Param('id') id: number) {
     return await this.accountService.deleteUserExperience(id);
   }
+
+  @Auth()
+  @Get('fields')
+  async getUserFields(@CurrentUser('userId') userId: number) {
+    return await this.accountService.getUserFields(userId);
+  }
+
+  @Auth()
+  @Post('technologies/:id')
+  async createUserTechnology(
+    @CurrentUser('userId') userId: number,
+    @Param('id') id: number,
+  ) {
+    return await this.accountService.createUserTechnology(userId, id);
+  }
+
+  @Auth()
+  @Delete('technologies/:id')
+  async deleteUserTechnology(
+    @CurrentUser('userId') userId: number,
+    @Param('id') id: number,
+  ) {
+    return await this.accountService.deleteUserTechnology(userId, id);
+  }
+
+  @Auth()
+  @Get('technologies')
+  async getUserTechnologies(@CurrentUser('userId') userId: number) {
+    return await this.accountService.getUserTechnologies(userId);
+  }
 }
