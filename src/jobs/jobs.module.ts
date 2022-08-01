@@ -7,6 +7,6 @@ import { JobsService } from './service/jobs.service';
 @Module({
   imports: [SharedModule],
   controllers: [JobsController],
-  providers: [JobsService, JobsRepository]
+  providers: [JobsService, JobsRepository],
 })
 export class JobsModule {}
