@@ -1,26 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { DatabaseService } from 'src/shared/database/database.service';
 import { Procedure } from 'src/shared/database/procedures';
+import { BaseRepository } from 'src/shared/service/base.repository';
 import { Login } from '../models/login.model';
 import { Register } from '../models/register.model';
 import { TokenInfo } from '../models/token-info.model';
 
 @Injectable()
-export class AuthRepository {
-  constructor(private readonly databaseService: DatabaseService) {}
-
+export class AuthRepository extends BaseRepository {
   async login(loginUser: Login): Promise<TokenInfo> {
     const { email, password } = loginUser;
     const inputParams = [
       { name: 'email', value: email },
       { name: 'password', value: password },
     ];
-    const data = await this.databaseService.execProcedure(
-      Procedure.LOGIN,
-      inputParams,
-    );
-    // if(!data.result) throw
-    const userTokenData = this.mapTokenFromLoginAndRegister(data.result[0]);
+    const { result } = await this.execProc(Procedure.LOGIN, inputParams);
+    if (!result) throw Error('ERR_09');
+    const userTokenData = this.mapTokenFromLoginAndRegister(result[0]);
     return userTokenData;
   }
 
@@ -35,12 +30,9 @@ export class AuthRepository {
       { name: 'roleId', value: roleId },
       { name: 'password', value: password },
     ];
-    const data = await this.databaseService.execProcedure(
-      Procedure.REGISTER,
-      inputParams,
-    );
-    // if(!data.result) throw
-    const userTokenData = this.mapTokenFromLoginAndRegister(data.result[0]);
+    const { result } = await this.execProc(Procedure.REGISTER, inputParams);
+    if (!result) throw Error('ERR_09');
+    const userTokenData = this.mapTokenFromLoginAndRegister(result[0]);
     return userTokenData;
   }
 
