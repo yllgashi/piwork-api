@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/shared/database/database.service';
+import { Procedure } from 'src/shared/database/procedures';
 import { Field } from '../model/field.model';
 import { Technology } from '../model/technology.model';
 
@@ -9,7 +10,7 @@ export class TechnologyRepository {
 
   async getAllTechnologies(): Promise<Technology[]> {
     const data = await this.databaseService.execProcedure(
-      'Work.usp_Technology_GetAll',
+      Procedure.TECHNOLOGY_GET_ALL,
     );
     // if(!data.result) throw
     const technologies: Technology[] = this.mapTechnologies(data.result);
@@ -18,7 +19,7 @@ export class TechnologyRepository {
 
   async getAllFields(): Promise<Field[]> {
     const data = await this.databaseService.execProcedure(
-      'Work.usp_Field_GetAll',
+      Procedure.FIELD_GET_ALL,
     );
     // if(!data.result) throw
     const fields: Field[] = this.mapFields(data.result);

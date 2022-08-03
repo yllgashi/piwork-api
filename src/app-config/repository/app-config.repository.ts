@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/shared/database/database.service';
+import { Procedure } from 'src/shared/database/procedures';
 import { AppConfig } from '../model/app-config.model';
 
 @Injectable()
@@ -8,7 +9,7 @@ export class AppConfigRepository {
 
   async getValue(key: string): Promise<any> {
     const data = await this.databaseService.execProcedure(
-      'App.usp_Config_Get',
+      Procedure.CONFIG_GET,
       [{ name: 'key', value: key }],
     );
     return data.result[0];
@@ -17,7 +18,7 @@ export class AppConfigRepository {
   async createConfig(userId: number, config: AppConfig) {
     const { key, value } = config;
     const data = await this.databaseService.execProcedure(
-      'App.usp_Config_Insert',
+      Procedure.CONFIG_INSERT,
       [
         { name: 'key', value: key },
         { name: 'value', value: value },

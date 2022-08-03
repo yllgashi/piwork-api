@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/shared/database/database.service';
+import { Procedure } from 'src/shared/database/procedures';
 import { JobApplication } from '../model/job-application.model';
 
 @Injectable()
@@ -9,7 +10,7 @@ export class ApplicationsRepository {
   async getJobApplicationsByUser(userId: number) {
     const inputParams = [{ name: 'userId', value: userId }];
     const data = await this.databaseService.execProcedure(
-      'Work.usp_JobApplication_GetByUser',
+      Procedure.JOB_APPLICATION_GET_BY_USER,
       inputParams,
     );
     const jobApplications: JobApplication[] = this.mapJobApplications(
@@ -26,7 +27,7 @@ export class ApplicationsRepository {
       { name: 'comment', value: comment },
     ];
     const data = await this.databaseService.execProcedure(
-      'Work.usp_JobApplication_Insert',
+      Procedure.JOB_APPLICATION_CREATE,
       inputParams,
     );
     return {};
@@ -38,7 +39,7 @@ export class ApplicationsRepository {
       { name: 'jobId', value: jobId },
     ];
     const data = await this.databaseService.execProcedure(
-      'Work.usp_JobApplication_Delete',
+      Procedure.JOB_APPLICATION_DELETE,
       inputParams,
     );
     return {};
@@ -50,7 +51,7 @@ export class ApplicationsRepository {
       { name: 'jobApplicationId', value: jobApplicationId },
     ];
     const data = await this.databaseService.execProcedure(
-      'Work.usp_JobApplication_ChooseWinner',
+      Procedure.JOB_APPLICATION_CHOOSE_WINNER,
       inputParams,
     );
     return {};

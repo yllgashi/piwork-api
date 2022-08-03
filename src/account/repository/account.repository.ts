@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/shared/database/database.service';
+import { Procedure } from 'src/shared/database/procedures';
 import { UserExperience } from '../model/user-experience.model';
 import { UserField } from '../model/user-field.model';
 import { UserTechnology } from '../model/user-technology.model';
@@ -11,7 +12,7 @@ export class AccountRepository {
   async getUserExperience(userId: number): Promise<UserExperience[]> {
     const inputParams = [{ name: 'userId', value: userId }];
     const data = await this.databaseService.execProcedure(
-      'Work.usp_Experience_GetForUser',
+      Procedure.EXPERIENCE_GET_BY_USER_ID,
       inputParams,
     );
     const userExperience: UserExperience[] = this.mapUserExperience(
@@ -30,7 +31,7 @@ export class AccountRepository {
       { name: 'endDate', value: endDate },
     ];
     const data = await this.databaseService.execProcedure(
-      'Work.usp_Experience_Insert',
+      Procedure.EXPERIENCE_INSERT,
       inputParams,
     );
     return {};
@@ -39,7 +40,7 @@ export class AccountRepository {
   async deleteUserExperience(id: number) {
     const inputParams = [{ name: 'experienceId', value: id }];
     const data = await this.databaseService.execProcedure(
-      'Work.usp_Experience_DeleteForUser',
+      Procedure.EXPERIENCE_DELETE_FOR_USER,
       inputParams,
     );
     return {};
@@ -48,7 +49,7 @@ export class AccountRepository {
   async getUserFields(userId: number) {
     const inputParams = [{ name: 'userId', value: userId }];
     const data = await this.databaseService.execProcedure(
-      'Work.usp_Field_GetForUser',
+      Procedure.FIELD_GET_BY_USER_ID,
       inputParams,
     );
     const userFields: UserField[] = this.mapUserFields(data.result);
@@ -61,7 +62,7 @@ export class AccountRepository {
       { name: 'technologyId', value: technologyId },
     ];
     const data = await this.databaseService.execProcedure(
-      'Work.usp_UserTechnology_Insert',
+      Procedure.USER_TECHNOLOGY_INSERT,
       inputParams,
     );
     return {};
@@ -73,7 +74,7 @@ export class AccountRepository {
       { name: 'technologyId', value: technologyId },
     ];
     const data = await this.databaseService.execProcedure(
-      'Work.usp_UserTechnology_DeleteForUser',
+      Procedure.USER_TECHNOLOGY_DELETE_FOR_USER,
       inputParams,
     );
     return {};
@@ -82,7 +83,7 @@ export class AccountRepository {
   async getUserTechnologies(userId: number) {
     const inputParams = [{ name: 'userId', value: userId }];
     const data = await this.databaseService.execProcedure(
-      'Work.usp_UserTechnology_GetForUser',
+      Procedure.USER_TECHNOLOGY_GET_FOR_USER,
       inputParams,
     );
     const userTechnologies: UserTechnology[] = this.mapUserTechnologies(

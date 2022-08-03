@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/shared/database/database.service';
+import { Procedure } from 'src/shared/database/procedures';
 import { JobDetails } from '../model/job-details.model';
 import { Job } from '../model/job.model';
 
@@ -9,7 +10,7 @@ export class JobsRepository {
 
   async getAllJobs(): Promise<Job[]> {
     const data = await this.databaseService.execProcedure(
-      'Work.usp_Job_GetAll',
+      Procedure.JOB_GET_ALL,
     );
     const jobs: Job[] = this.mapJobs(data.result);
     return jobs;
@@ -18,7 +19,7 @@ export class JobsRepository {
   async getJobDetails(jobId: number): Promise<JobDetails> {
     const inputParams = [{ name: 'jobId', value: jobId }];
     const data = await this.databaseService.execProcedure(
-      'Work.usp_Job_GetDetails',
+      Procedure.JOB_GET_DETAILS,
       inputParams,
     );
     const jobDetails: JobDetails = this.mapJobDetails(data.result[0]);
@@ -46,7 +47,7 @@ export class JobsRepository {
       // {name: 'tvpJobTechnologies', value: jobTechnologies}
     ];
     const data = await this.databaseService.execProcedure(
-      'Work.usp_Job_Update',
+      Procedure.JOB_CREATE,
       inputParams,
     );
     return {};
@@ -75,7 +76,7 @@ export class JobsRepository {
       { name: 'priceAmount', value: priceAmount },
     ];
     const data = await this.databaseService.execProcedure(
-      'Work.usp_Job_Update',
+      Procedure.JOB_UPDATE,
       inputParams,
     );
     return {};
@@ -88,7 +89,7 @@ export class JobsRepository {
       { name: 'isActive', value: isactive },
     ];
     const data = await this.databaseService.execProcedure(
-      'Work.usp_Job_ChangeJobStatus',
+      Procedure.JOB_CHANGE_STATUS,
       inputParams,
     );
     return {};
@@ -97,7 +98,7 @@ export class JobsRepository {
   async getJobsByField(fieldId: number) {
     const inputParams = [{ name: 'fieldId', value: fieldId }];
     const data = await this.databaseService.execProcedure(
-      'Work.usp_Job_GetByFieldId',
+      Procedure.JOB_GET_BY_FIELD_ID,
       inputParams,
     );
     const jobs: Job[] = this.mapJobs(data.result);
@@ -107,7 +108,7 @@ export class JobsRepository {
   async getJobsByTechnology(technologyId: number) {
     const inputParams = [{ name: 'technologyId', value: technologyId }];
     const data = await this.databaseService.execProcedure(
-      'Work.usp_Job_GetByTechnologyId',
+      Procedure.JOB_GET_BY_TECHNOLOGY_ID,
       inputParams,
     );
     const jobs: Job[] = this.mapJobs(data.result);

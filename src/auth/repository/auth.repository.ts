@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/shared/database/database.service';
+import { Procedure } from 'src/shared/database/procedures';
 import { Login } from '../models/login.model';
 import { Register } from '../models/register.model';
 import { TokenInfo } from '../models/token-info.model';
-import { AuthProcedure } from './auth-procedure.repository';
 
 @Injectable()
 export class AuthRepository {
@@ -16,7 +16,7 @@ export class AuthRepository {
       { name: 'password', value: password },
     ];
     const data = await this.databaseService.execProcedure(
-      AuthProcedure.LOGIN,
+      Procedure.LOGIN,
       inputParams,
     );
     // if(!data.result) throw
@@ -36,7 +36,7 @@ export class AuthRepository {
       { name: 'password', value: password },
     ];
     const data = await this.databaseService.execProcedure(
-      AuthProcedure.REGISTER,
+      Procedure.REGISTER,
       inputParams,
     );
     // if(!data.result) throw
