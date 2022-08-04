@@ -14,7 +14,6 @@ export class AuthRepository extends BaseRepository {
       { name: 'password', value: password },
     ];
     const { result } = await this.execProc(Procedure.LOGIN, inputParams);
-    if (!result) throw Error('ERR_09');
     const userTokenData = this.mapTokenFromLoginAndRegister(result[0]);
     return userTokenData;
   }
@@ -31,7 +30,6 @@ export class AuthRepository extends BaseRepository {
       { name: 'password', value: password },
     ];
     const { result } = await this.execProc(Procedure.REGISTER, inputParams);
-    if (!result) throw Error('ERR_09');
     const userTokenData = this.mapTokenFromLoginAndRegister(result[0]);
     return userTokenData;
   }
