@@ -1,21 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { DatabaseService } from 'src/shared/database/database.service';
 import { Procedure } from 'src/shared/database/procedures';
+import { BaseRepository } from 'src/shared/service/base.repository';
 import { JobApplication } from '../model/job-application.model';
 
 @Injectable()
-export class ApplicationsRepository {
-  constructor(private readonly databaseService: DatabaseService) {}
-
+export class ApplicationsRepository extends BaseRepository {
   async getJobApplicationsByUser(userId: number) {
     const inputParams = [{ name: 'userId', value: userId }];
-    const data = await this.databaseService.execProcedure(
+    const { result } = await this.execProc(
       Procedure.JOB_APPLICATION_GET_BY_USER,
       inputParams,
     );
-    const jobApplications: JobApplication[] = this.mapJobApplications(
-      data.result,
-    );
+    const jobApplications: JobApplication[] = this.mapJobApplications(result);
     return jobApplications;
   }
 
@@ -26,7 +22,7 @@ export class ApplicationsRepository {
       { name: 'jobId', value: jobId },
       { name: 'comment', value: comment },
     ];
-    const data = await this.databaseService.execProcedure(
+    const { result } = await this.execProc(
       Procedure.JOB_APPLICATION_CREATE,
       inputParams,
     );
@@ -38,7 +34,7 @@ export class ApplicationsRepository {
       { name: 'userId', value: userId },
       { name: 'jobId', value: jobId },
     ];
-    const data = await this.databaseService.execProcedure(
+    const { result } = await this.execProc(
       Procedure.JOB_APPLICATION_DELETE,
       inputParams,
     );
@@ -50,7 +46,7 @@ export class ApplicationsRepository {
       { name: 'userId', value: userId },
       { name: 'jobApplicationId', value: jobApplicationId },
     ];
-    const data = await this.databaseService.execProcedure(
+    const { result } = await this.execProc(
       Procedure.JOB_APPLICATION_CHOOSE_WINNER,
       inputParams,
     );

@@ -1,28 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { DatabaseService } from 'src/shared/database/database.service';
 import { Procedure } from 'src/shared/database/procedures';
+import { BaseRepository } from 'src/shared/service/base.repository';
 import { Field } from '../model/field.model';
 import { Technology } from '../model/technology.model';
 
 @Injectable()
-export class TechnologyRepository {
-  constructor(private readonly databaseService: DatabaseService) {}
-
+export class TechnologyRepository extends BaseRepository {
   async getAllTechnologies(): Promise<Technology[]> {
-    const data = await this.databaseService.execProcedure(
-      Procedure.TECHNOLOGY_GET_ALL,
-    );
-    // if(!data.result) throw
-    const technologies: Technology[] = this.mapTechnologies(data.result);
+    const { result } = await this.execProc(Procedure.TECHNOLOGY_GET_ALL);
+    const technologies: Technology[] = this.mapTechnologies(result);
     return technologies;
   }
 
   async getAllFields(): Promise<Field[]> {
-    const data = await this.databaseService.execProcedure(
-      Procedure.FIELD_GET_ALL,
-    );
-    // if(!data.result) throw
-    const fields: Field[] = this.mapFields(data.result);
+    const { result } = await this.execProc(Procedure.FIELD_GET_ALL);
+    const fields: Field[] = this.mapFields(result);
     return fields;
   }
 

@@ -5,7 +5,7 @@ import { mssqlconfig } from './config/mssql.config';
 import { ProcedureResponse } from './models/procedure-response.model';
 
 @Injectable()
-export class DatabaseService {
+export class MssqlService {
   constructor() {}
 
   async query(queryString) {
@@ -43,7 +43,7 @@ export class DatabaseService {
         result: result.recordset,
         outputParams: result.output,
       };
-      
+
       return procResponse;
     } catch (error) {
       pool.close();

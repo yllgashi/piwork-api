@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { DatabaseService } from '../database/database.service';
+import { MssqlService } from '../database/mssql.service';
 
 @Injectable()
 export class BaseRepository {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(private readonly databaseService: MssqlService) {}
 
   async execProc(
     procedureName: string,
