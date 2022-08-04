@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Login } from '../models/login.model';
 import { Register } from '../models/register.model';
@@ -12,11 +12,8 @@ export class AuthService {
     private authRepository: AuthRepository,
   ) {}
 
-  //#region Authentication
   async login(loginUser: Login) {
     const tokenInfo: TokenInfo = await this.authRepository.login(loginUser);
-    if (!tokenInfo)
-      throw new HttpException('User does not exists', HttpStatus.NOT_FOUND);
     return {
       access_token: this.jwtService.sign(tokenInfo),
     };
@@ -26,14 +23,8 @@ export class AuthService {
     const tokenInfo: TokenInfo = await this.authRepository.register(
       registerUser,
     );
-    if (!tokenInfo)
-      throw new HttpException(
-        'Something went wrong',
-        HttpStatus.SERVICE_UNAVAILABLE,
-      );
     return {
       access_token: this.jwtService.sign(tokenInfo),
     };
   }
-  //#endregion
 }
