@@ -18,46 +18,13 @@ export class JobsRepository extends BaseRepository {
 
   async getJobDetails(jobId: number): Promise<JobDetails> {
     let jobDetails: JobDetails = await this.getBasicJobDetails(jobId);
-    const jobRequiredTechnologies = await this.getJobRequiredTechnologies(
-      jobId,
+    const jobRequiredTechnologiesQueryRes =
+      await this.getJobRequiredTechnologies(jobId);
+    jobDetails.jobFields = this.mapJobFields(jobRequiredTechnologiesQueryRes);
+    jobDetails.jobTechnologies = this.mapJobTechnologies(
+      jobRequiredTechnologiesQueryRes,
     );
-    const jobFields: JobField[] = jobRequiredTechnologies.map((e) => {
-      const { FieldId, FieldName } = e;
-      const jobField: JobField = { fieldId: FieldId, fieldName: FieldName };
-      return jobField;
-    });
-    const jobTechnologies: JobTechnology[] = jobRequiredTechnologies.map(
-      (e) => {
-        const { TechnologyId, TechnologyName } = e;
-        const jobTechnology: JobTechnology = {
-          technologyId: TechnologyId,
-          technologyName: TechnologyName,
-        };
-        return jobTechnology;
-      },
-    );
-    jobDetails.jobFields = jobFields;
-    jobDetails.jobTechnologies = jobTechnologies;
     return jobDetails;
-  }
-
-  private async getBasicJobDetails(jobId: number): Promise<JobDetails> {
-    const inputParams = [{ name: 'jobId', value: jobId }];
-    const { result } = await this.execProc(
-      Procedure.JOB_GET_DETAILS,
-      inputParams,
-    );
-    const jobDetails: JobDetails = this.mapJobDetails(result[0]);
-    return jobDetails;
-  }
-
-  private async getJobRequiredTechnologies(jobId: number): Promise<any> {
-    const inputParams = [{ name: 'jobId', value: jobId }];
-    const { result } = await this.execProc(
-      Procedure.JOB_GET_JOB_REQUIRED_TECHNOLOGIES,
-      inputParams,
-    );
-    return result;
   }
 
   async createJob(userId: number, jobDetails: JobCreate) {
@@ -146,6 +113,25 @@ export class JobsRepository extends BaseRepository {
     return jobs;
   }
 
+  private async getBasicJobDetails(jobId: number): Promise<JobDetails> {
+    const inputParams = [{ name: 'jobId', value: jobId }];
+    const { result } = await this.execProc(
+      Procedure.JOB_GET_DETAILS,
+      inputParams,
+    );
+    const jobDetails: JobDetails = this.mapJobDetails(result[0]);
+    return jobDetails;
+  }
+
+  private async getJobRequiredTechnologies(jobId: number): Promise<any> {
+    const inputParams = [{ name: 'jobId', value: jobId }];
+    const { result } = await this.execProc(
+      Procedure.JOB_GET_JOB_REQUIRED_TECHNOLOGIES,
+      inputParams,
+    );
+    return result;
+  }
+
   //#region mappers
   private mapJobs(queryResult: any): Job[] {
     const jobs: Job[] = queryResult.map((e) => {
@@ -190,6 +176,27 @@ export class JobsRepository extends BaseRepository {
       isActive: IsActive,
     };
     return jobDetails;
+  }
+
+  private mapJobTechnologies(queryResult: any): JobTechnology[] {
+    const jobTechnologies: JobTechnology[] = queryResult.map((e) => {
+      const { TechnologyId, TechnologyName } = e;
+      const jobTechnology: JobTechnology = {
+        technologyId: TechnologyId,
+        technologyName: TechnologyName,
+      };
+      return jobTechnology;
+    });
+    return jobTechnologies;
+  }
+
+  private mapJobFields(queryResult: any): JobField[] {
+    const jobFields: JobField[] = queryResult.map((e) => {
+      const { FieldId, FieldName } = e;
+      const jobField: JobField = { fieldId: FieldId, fieldName: FieldName };
+      return jobField;
+    });
+    return jobFields;
   }
   //#endregion mappers
 }
