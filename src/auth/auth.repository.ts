@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Procedure } from 'src/shared/database/procedures';
-import { BaseRepository } from 'src/shared/service/base.repository';
+import { BaseRepository } from 'src/shared/database/base.repository';
 import { Login } from './models/login.model';
 import { Register } from './models/register.model';
 import { TokenInfo } from './models/token-info.model';

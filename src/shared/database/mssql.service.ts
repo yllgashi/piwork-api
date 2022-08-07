@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import * as sql from 'mssql';
 
 import { mssqlconfig } from './config/mssql.config';
+import { ProcedureParameter } from './models/procedure-parameter.model';
 import { ProcedureResponse } from './models/procedure-response.model';
 
 @Injectable()
@@ -23,8 +24,8 @@ export class MssqlService {
 
   async execProcedure(
     procedureName: string,
-    inputParams: { name: string; value: any }[] = [],
-    outputParams: { name: string; value: any }[] = [],
+    inputParams: ProcedureParameter[] = [],
+    outputParams: ProcedureParameter[] = [],
   ) {
     const pool = new sql.ConnectionPool(mssqlconfig());
     try {

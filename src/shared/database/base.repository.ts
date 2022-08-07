@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { MssqlService } from '../database/mssql.service';
+import { ProcedureParameter } from './models/procedure-parameter.model';
+import { MssqlService } from './mssql.service';
 
 @Injectable()
 export class BaseRepository {
@@ -7,8 +8,8 @@ export class BaseRepository {
 
   async execProc(
     procedureName: string,
-    inputParams: { name: string; value: any }[] = [],
-    outputParams: { name: string; value: any }[] = [],
+    inputParams: ProcedureParameter[] = [],
+    outputParams: ProcedureParameter[] = [],
   ): Promise<any> {
     return await this.databaseService.execProcedure(
       procedureName,

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Procedure } from 'src/shared/database/procedures';
-import { BaseRepository } from 'src/shared/service/base.repository';
+import { BaseRepository } from 'src/shared/database/base.repository';
 import { JobApplication } from './model/job-application.model';
 
 @Injectable()
