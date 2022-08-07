@@ -1,5 +1,4 @@
-export class jobTechnologies {
-  id: number;
+export class JobTechnology {
   technologyId: number;
   technologyName: string;
 }

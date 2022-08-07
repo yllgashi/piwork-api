@@ -5,6 +5,7 @@ import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
 import { JobDetails } from './model/job-details.model';
 import { Job } from './model/job.model';
 import { JobsService } from './jobs.service';
+import { JobCreate } from './model/job-create.model';
 
 @ApiBearerAuth()
 @ApiTags('Jobs')
@@ -28,9 +29,10 @@ export class JobsController {
   @Post()
   async createJob(
     @CurrentUser('userId') userId: number,
-    @Body() jobDetails: JobDetails,
+    @Body() jobCreate: JobCreate,
   ) {
-    return await this.jobsService.createJob(userId, jobDetails);
+    console.log(jobCreate);
+    return await this.jobsService.createJob(userId, jobCreate);
   }
 
   @Auth()

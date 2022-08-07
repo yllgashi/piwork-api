@@ -3,6 +3,10 @@ import { Procedure } from 'src/shared/database/procedures';
 import { BaseRepository } from 'src/shared/database/base.repository';
 import { JobDetails } from './model/job-details.model';
 import { Job } from './model/job.model';
+import * as sql from 'mssql';
+import { JobCreate } from './model/job-create.model';
+import { JobField } from './model/job-field.model';
+import { JobTechnology } from './model/job-technology.model';
 
 @Injectable()
 export class JobsRepository extends BaseRepository {
@@ -13,16 +17,50 @@ export class JobsRepository extends BaseRepository {
   }
 
   async getJobDetails(jobId: number): Promise<JobDetails> {
+    let jobDetails: JobDetails = await this.getBasicJobDetails(jobId);
+    const jobRequiredTechnologies = await this.getJobRequiredTechnologies(
+      jobId,
+    );
+    const jobFields: JobField[] = jobRequiredTechnologies.map((e) => {
+      const { FieldId, FieldName } = e;
+      const jobField: JobField = { fieldId: FieldId, fieldName: FieldName };
+      return jobField;
+    });
+    const jobTechnologies: JobTechnology[] = jobRequiredTechnologies.map(
+      (e) => {
+        const { TechnologyId, TechnologyName } = e;
+        const jobTechnology: JobTechnology = {
+          technologyId: TechnologyId,
+          technologyName: TechnologyName,
+        };
+        return jobTechnology;
+      },
+    );
+    jobDetails.jobFields = jobFields;
+    jobDetails.jobTechnologies = jobTechnologies;
+    return jobDetails;
+  }
+
+  private async getBasicJobDetails(jobId: number): Promise<JobDetails> {
     const inputParams = [{ name: 'jobId', value: jobId }];
     const { result } = await this.execProc(
       Procedure.JOB_GET_DETAILS,
       inputParams,
     );
-    const jobDetails: JobDetails = this.mapJobDetails(result);
+    const jobDetails: JobDetails = this.mapJobDetails(result[0]);
     return jobDetails;
   }
 
-  async createJob(userId: number, jobDetails: JobDetails) {
+  private async getJobRequiredTechnologies(jobId: number): Promise<any> {
+    const inputParams = [{ name: 'jobId', value: jobId }];
+    const { result } = await this.execProc(
+      Procedure.JOB_GET_JOB_REQUIRED_TECHNOLOGIES,
+      inputParams,
+    );
+    return result;
+  }
+
+  async createJob(userId: number, jobDetails: JobCreate) {
     const {
       title,
       description,
@@ -30,8 +68,11 @@ export class JobsRepository extends BaseRepository {
       estimatedDays,
       contactEmail,
       priceAmount,
-      jobTechnologies,
+      jobTechnologiesIds,
     } = jobDetails;
+    const tvpJobTechnologies = new sql.Table();
+    tvpJobTechnologies.columns.add('TechnologyId', sql.Int);
+    jobTechnologiesIds.forEach((e) => tvpJobTechnologies.rows.add(e));
     const inputParams = [
       { name: 'userId', value: userId },
       { name: 'title', value: title },
@@ -40,7 +81,7 @@ export class JobsRepository extends BaseRepository {
       { name: 'estimatedDays', value: estimatedDays },
       { name: 'contactEmail', value: contactEmail },
       { name: 'priceAmount', value: priceAmount },
-      // {name: 'tvpJobTechnologies', value: jobTechnologies}
+      { name: 'tvpJobTechnologies', value: tvpJobTechnologies },
     ];
     const { result } = await this.execProc(Procedure.JOB_CREATE, inputParams);
     return {};

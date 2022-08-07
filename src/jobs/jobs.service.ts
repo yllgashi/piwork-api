@@ -3,6 +3,7 @@ import { JobDetails } from './model/job-details.model';
 
 import { Job } from './model/job.model';
 import { JobsRepository } from './jobs.repository';
+import { JobCreate } from './model/job-create.model';
 
 @Injectable()
 export class JobsService {
@@ -16,8 +17,8 @@ export class JobsService {
     return await this.jobsRepository.getJobDetails(jobId);
   }
 
-  async createJob(userId: number, jobDetails: JobDetails) {
-    return await this.jobsRepository.createJob(userId, jobDetails);
+  async createJob(userId: number, jobCreate: JobCreate) {
+    return await this.jobsRepository.createJob(userId, jobCreate);
   }
 
   async editJob(userId: number, jobDetails: JobDetails) {

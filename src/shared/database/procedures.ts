@@ -8,11 +8,12 @@ export class Procedure {
   // jobs
   static readonly JOB_GET_ALL: string = 'Work.usp_Job_GetAll';
   static readonly JOB_GET_DETAILS: string = 'Work.usp_Job_GetDetails';
-  static readonly JOB_CREATE: string = '';
+  static readonly JOB_CREATE: string = 'Work.usp_Job_Insert';
   static readonly JOB_UPDATE: string = 'Work.usp_Job_Update';
   static readonly JOB_CHANGE_STATUS: string = 'Work.usp_Job_ChangeJobStatus';
   static readonly JOB_GET_BY_FIELD_ID: string = 'Work.usp_Job_GetByFieldId';
   static readonly JOB_GET_BY_TECHNOLOGY_ID: string = 'Work.usp_Job_GetByTechnologyId';
+  static readonly JOB_GET_JOB_REQUIRED_TECHNOLOGIES: string = 'Work.usp_Job_GetJobRequiredTechnologies'
   // applications
   static readonly JOB_APPLICATION_GET_BY_USER: string = 'Work.usp_JobApplication_GetByUser';
   static readonly JOB_APPLICATION_CREATE: string = 'Work.usp_JobApplication_Insert';

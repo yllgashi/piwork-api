@@ -1,4 +1,5 @@
-import { jobTechnologies } from './job-technologies.model';
+import { JobField } from './job-field.model';
+import { JobTechnology } from './job-technology.model';
 
 export class JobDetails {
   id: number;
@@ -12,5 +13,6 @@ export class JobDetails {
   publishedByUserLastName: string;
   priceAmount: number;
   isActive: boolean;
-  jobTechnologies?: jobTechnologies[];
+  jobTechnologies?: JobTechnology[];
+  jobFields?: JobField[];
 }
