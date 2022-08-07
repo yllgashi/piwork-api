@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { SharedModule } from 'src/shared/shared.module';
-import { TechnologyController } from './controller/technology.controller';
-import { TechnologyRepository } from './repository/technology.repository';
-import { TechnologyService } from './service/technology.service';
+import { TechnologyController } from './technology.controller';
+import { TechnologyRepository } from './technology.repository';
+import { TechnologyService } from './technology.service';
 
 @Module({
   imports: [SharedModule],

@@ -3,9 +3,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
 import { SharedModule } from 'src/shared/shared.module';
-import { AuthController } from './controller/auth.controller';
-import { AuthRepository } from './repository/auth.repository';
-import { AuthService } from './service/auth.service';
+import { AuthController } from './auth.controller';
+import { AuthRepository } from './auth.repository';
+import { AuthService } from './auth.service';
 import { JwtStrategy } from './utils/jwt.strategy';
 
 @Module({

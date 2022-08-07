@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { SharedModule } from 'src/shared/shared.module';
-import { AppConfigService } from './service/app-config.service';
-import { AppConfigController } from './controller/app-config.controller';
-import { AppConfigRepository } from './repository/app-config.repository';
+import { AppConfigService } from './app-config.service';
+import { AppConfigController } from './app-config.controller';
+import { AppConfigRepository } from './app-config.repository';
 
 @Module({
   imports: [SharedModule],
