@@ -159,7 +159,9 @@ export class JobsRepository extends BaseRepository {
       PublishedByUserId,
       PublishedByUserFirstName,
       PublishedByUserLastName,
+      PublishedByUserPicture,
       PriceAmonut,
+      Picture,
       IsActive,
     } = queryResult;
     const jobDetails: JobDetails = {
@@ -171,8 +173,10 @@ export class JobsRepository extends BaseRepository {
       contactEmail: ContactEmail,
       publishedByUserFirstName: PublishedByUserFirstName,
       publishedByUserLastName: PublishedByUserLastName,
+      publishedByUserPicture: PublishedByUserPicture,
       publishedByUserId: PublishedByUserId,
       sourceCodeLink: SourceCodeLink,
+      picture: Picture,
       isActive: IsActive,
     };
     return jobDetails;

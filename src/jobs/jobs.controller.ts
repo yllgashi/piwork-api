@@ -13,7 +13,7 @@ import { JobCreate } from './model/job-create.model';
 export class JobsController {
   constructor(private jobsService: JobsService) {}
 
-  @Auth()
+
   @Get('')
   async getAllJobs(): Promise<Job[]> {
     return await this.jobsService.getAllJobs();

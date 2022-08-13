@@ -4,9 +4,20 @@ import { BaseRepository } from 'src/shared/database/base.repository';
 import { UserExperience } from './model/user-experience.model';
 import { UserField } from './model/user-field.model';
 import { UserTechnology } from './model/user-technology.model';
+import { UserDetails } from './model/user-details.model';
 
 @Injectable()
 export class AccountRepository extends BaseRepository {
+  async getUserDetails(userId: any): Promise<UserDetails> {
+    const inputParams = [{ name: 'userId', value: userId }];
+    const { result } = await this.execProc(
+      Procedure.USER_GET_DETAILS,
+      inputParams,
+    );
+    const userDetails: UserDetails = this.mapUserDetails(result[0]);
+    return userDetails;
+  }
+
   async getUserExperience(userId: number): Promise<UserExperience[]> {
     const inputParams = [{ name: 'userId', value: userId }];
     const { result } = await this.execProc(
@@ -125,6 +136,34 @@ export class AccountRepository extends BaseRepository {
       return technology;
     });
     return userTechnologies;
+  }
+
+  private mapUserDetails(queryResult: any): UserDetails {
+    const {
+      Id,
+      FirstName,
+      LastName,
+      Email,
+      Description,
+      RoleId,
+      RoleName,
+      IsActive,
+      InsertDate,
+      ProfilePic,
+    } = queryResult;
+    const userDetails: UserDetails = {
+      id: Id,
+      firstName: FirstName,
+      lastName: LastName,
+      email: Email,
+      description: Description,
+      roleId: RoleId,
+      roleName: RoleName,
+      isActive: IsActive,
+      insertDate: InsertDate,
+      profilePic: ProfilePic,
+    };
+    return userDetails;
   }
   //#endregion mappers
 }

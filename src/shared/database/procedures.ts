@@ -23,6 +23,7 @@ export class Procedure {
   static readonly CONFIG_INSERT: string = 'App.usp_Config_Insert';
   static readonly CONFIG_GET: string = 'App.usp_Config_Get';
   // account
+  static readonly USER_GET_DETAILS = "Administration.usp_User_GetAccountDetails";
   static readonly EXPERIENCE_GET_BY_USER_ID: string = 'Work.usp_Experience_GetForUser';
   static readonly EXPERIENCE_INSERT: string = 'Work.usp_Experience_Insert';
   static readonly EXPERIENCE_DELETE_FOR_USER: string = 'Work.usp_Experience_DeleteForUser';
