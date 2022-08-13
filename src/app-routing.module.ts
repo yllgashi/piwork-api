@@ -6,6 +6,7 @@ import { AccountModule } from './account/account.module';
 import { JobsModule } from './jobs/jobs.module';
 import { ApplicationsModule } from './applications/applications.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { NotificationsModule } from './notifications/notifications.module';
     JobsModule,
     ApplicationsModule,
     NotificationsModule,
+    FilesModule,
   ],
 })
 export class AppRoutingModule {}
