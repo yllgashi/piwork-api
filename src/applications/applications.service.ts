@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { JobApplication } from './model/job-application.model';
 import { ApplicationsRepository } from './applications.repository';
+import { GetJobApplication } from './model/get-job-application.model';
 
 @Injectable()
 export class ApplicationsService {
   constructor(private applicationsRepository: ApplicationsRepository) {}
 
-  async getJobApplicationsByUser(userId: number) {
+  async getJobApplicationsByUser(userId: number): Promise<GetJobApplication[]> {
     return await this.applicationsRepository.getJobApplicationsByUser(userId);
   }
 

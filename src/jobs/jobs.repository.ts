@@ -135,12 +135,12 @@ export class JobsRepository extends BaseRepository {
   //#region mappers
   private mapJobs(queryResult: any): Job[] {
     const jobs: Job[] = queryResult.map((e) => {
-      const { Id, Title, PriceAmount, Picture, InsertDate, IsActive } = e;
+      const { Id, Title, PriceAmount, Description, InsertDate, IsActive } = e;
       const job: Job = {
         id: Id,
         title: Title,
         priceAmount: PriceAmount,
-        picture: Picture,
+        description: Description,
         insertDate: InsertDate,
         isActive: IsActive,
       };
@@ -189,7 +189,7 @@ export class JobsRepository extends BaseRepository {
       const jobTechnology: JobTechnology = {
         technologyId: TechnologyId,
         technologyName: TechnologyName,
-        technologyIcon: TechnologyIcon
+        technologyIcon: TechnologyIcon,
       };
       return jobTechnology;
     });

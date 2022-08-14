@@ -4,6 +4,7 @@ import { Auth } from 'src/shared/decorators/auth.decorator';
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
 import { JobApplication } from './model/job-application.model';
 import { ApplicationsService } from './applications.service';
+import { GetJobApplication } from './model/get-job-application.model';
 
 @ApiBearerAuth()
 @ApiTags('Applications')
@@ -13,7 +14,9 @@ export class ApplicationsController {
 
   @Auth()
   @Get('')
-  async getJobApplicationsByUser(@CurrentUser('userId') userId: number) {
+  async getJobApplicationsByUser(
+    @CurrentUser('userId') userId: number,
+  ): Promise<GetJobApplication[]> {
     return await this.applicationsService.getJobApplicationsByUser(userId);
   }
 
@@ -23,6 +26,7 @@ export class ApplicationsController {
     @CurrentUser('userId') userId: number,
     @Body() jobApplication: JobApplication,
   ) {
+    console.log(jobApplication);
     return await this.applicationsService.createJobApplication(
       userId,
       jobApplication,

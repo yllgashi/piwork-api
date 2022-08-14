@@ -2,17 +2,19 @@ import { Injectable } from '@nestjs/common';
 import { Procedure } from 'src/shared/database/procedures';
 import { BaseRepository } from 'src/shared/database/base.repository';
 import { JobApplication } from './model/job-application.model';
+import { GetJobApplication } from './model/get-job-application.model';
 
 @Injectable()
 export class ApplicationsRepository extends BaseRepository {
-  async getJobApplicationsByUser(userId: number) {
+  async getJobApplicationsByUser(userId: number): Promise<GetJobApplication[]> {
     const inputParams = [{ name: 'userId', value: userId }];
     const { result } = await this.execProc(
       Procedure.JOB_APPLICATION_GET_BY_USER,
       inputParams,
     );
-    const jobApplications: JobApplication[] = this.mapJobApplications(result);
-    return jobApplications;
+    const getJobApplications: GetJobApplication[] =
+      this.mapGetJobApplications(result);
+    return getJobApplications;
   }
 
   async createJobApplication(userId: number, jobApplication: JobApplication) {
@@ -65,6 +67,33 @@ export class ApplicationsRepository extends BaseRepository {
       return jobApplication;
     });
     return jobApplications;
+  }
+
+  private mapGetJobApplications(queryResult: any): GetJobApplication[] {
+    const getJobApplications: GetJobApplication[] = queryResult.map((e) => {
+      const {
+        Id,
+        JobId,
+        JobTitle,
+        Comment,
+        JobApplicationPhaseId,
+        JobApplicationPhaseDescription,
+        InsertDate,
+        IsActive,
+      } = e;
+      const obj: GetJobApplication = {
+        id: Id,
+        jobId: JobId,
+        jobTitle: JobTitle,
+        comment: Comment,
+        jobApplicationPhaseId: JobApplicationPhaseId,
+        jobApplicationPhaseDescription: JobApplicationPhaseDescription,
+        insertDate: InsertDate,
+        isActive: IsActive,
+      };
+      return obj;
+    });
+    return getJobApplications;
   }
   //#endregion mappers
 }
