@@ -5,8 +5,10 @@ import { join } from 'path';
 
 @Injectable()
 export class FilesService {
-  getFile(name: string): fs.ReadStream {
-    const file = fs.createReadStream(join(process.cwd(), `/files/${name}`));
+  getFile(folder: string, name: string): fs.ReadStream {
+    const currentDir: string = process.cwd();
+    const path = 'files/' + folder + '/' + name;
+    const file = fs.createReadStream(join(currentDir, path));
     return file;
   }
 }

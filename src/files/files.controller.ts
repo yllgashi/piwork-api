@@ -10,12 +10,13 @@ import { FilesService } from './files.service';
 export class FilesController {
   constructor(private filesService: FilesService) {}
 
-  @Get('/:name')
+  @Get('/:folder/:name')
   async getFile(
+    @Param('folder') folder: string,
     @Param('name') name: string,
     @Res() res: Response,
   ): Promise<any> {
-    const file = this.filesService.getFile(name);
+    const file = this.filesService.getFile(folder, name);
 
     res.setHeader('Content-Type', 'image/pdf');
     file.pipe(res);
