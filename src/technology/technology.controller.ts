@@ -6,7 +6,7 @@ import { Technology } from './model/technology.model';
 import { TechnologyService } from './technology.service';
 
 @ApiBearerAuth()
-@ApiTags('technology')
+@ApiTags('Technology')
 @Controller('technology')
 export class TechnologyController {
   constructor(private technologyService: TechnologyService) {}
