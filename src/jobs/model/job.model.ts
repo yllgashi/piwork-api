@@ -3,5 +3,6 @@ export class Job {
   title: string;
   priceAmount: number;
   picture: string;
+  insertDate: Date;
   isActive: boolean;
 }
