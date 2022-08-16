@@ -17,6 +17,19 @@ export class ApplicationsRepository extends BaseRepository {
     return getJobApplications;
   }
 
+  async getJobApplicationDetails(
+    applicationId: number,
+  ): Promise<GetJobApplication> {
+    const inputParams = [{ name: 'applicationId', value: applicationId }];
+    const { result } = await this.execProc(
+      Procedure.JOB_APPLICATION_GET_DETAILS,
+      inputParams,
+    );
+    const getJobApplication: GetJobApplication =
+      this.mapGetJobApplicationDetails(result[0]);
+    return getJobApplication;
+  }
+
   async createJobApplication(userId: number, jobApplication: JobApplication) {
     const { jobId, comment } = jobApplication;
     const inputParams = [
@@ -75,6 +88,8 @@ export class ApplicationsRepository extends BaseRepository {
         Id,
         JobId,
         JobTitle,
+        JobDescription,
+        JobPicture,
         Comment,
         JobApplicationPhaseId,
         JobApplicationPhaseDescription,
@@ -85,6 +100,8 @@ export class ApplicationsRepository extends BaseRepository {
         id: Id,
         jobId: JobId,
         jobTitle: JobTitle,
+        jobDescription: JobDescription,
+        jobPicture: JobPicture,
         comment: Comment,
         jobApplicationPhaseId: JobApplicationPhaseId,
         jobApplicationPhaseDescription: JobApplicationPhaseDescription,
@@ -94,6 +111,34 @@ export class ApplicationsRepository extends BaseRepository {
       return obj;
     });
     return getJobApplications;
+  }
+
+  private mapGetJobApplicationDetails(queryResult: any): GetJobApplication {
+    const {
+      Id,
+      JobId,
+      JobTitle,
+      JobDescription,
+      JobPicture,
+      Comment,
+      JobApplicationPhaseId,
+      JobApplicationPhaseDescription,
+      InsertDate,
+      IsActive,
+    } = queryResult;
+    const obj: GetJobApplication = {
+      id: Id,
+      jobId: JobId,
+      jobTitle: JobTitle,
+      jobDescription: JobDescription,
+      jobPicture: JobPicture,
+      comment: Comment,
+      jobApplicationPhaseId: JobApplicationPhaseId,
+      jobApplicationPhaseDescription: JobApplicationPhaseDescription,
+      insertDate: InsertDate,
+      isActive: IsActive,
+    };
+    return obj;
   }
   //#endregion mappers
 }

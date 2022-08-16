@@ -21,6 +21,14 @@ export class ApplicationsController {
   }
 
   @Auth()
+  @Get('/:id')
+  async getJobApplicationDetails(
+    @Param('id') id: number,
+  ): Promise<GetJobApplication> {
+    return await this.applicationsService.getJobApplicationDetails(id);
+  }
+
+  @Auth()
   @Post('')
   async createJobApplication(
     @CurrentUser('userId') userId: number,
