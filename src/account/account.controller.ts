@@ -19,9 +19,9 @@ export class AccountController {
   }
 
   @Auth()
-  @Get('experience')
+  @Get('/:userId/experience')
   async getUserExperience(
-    @CurrentUser('userId') userId: number,
+    @Param('userId') userId: number,
   ): Promise<UserExperience[]> {
     return await this.accountService.getUserExperience(userId);
   }
@@ -42,8 +42,8 @@ export class AccountController {
   }
 
   @Auth()
-  @Get('fields')
-  async getUserFields(@CurrentUser('userId') userId: number) {
+  @Get('/:userId/fields')
+  async getUserFields(@Param('userId') userId: number) {
     return await this.accountService.getUserFields(userId);
   }
 
@@ -66,8 +66,8 @@ export class AccountController {
   }
 
   @Auth()
-  @Get('technologies')
-  async getUserTechnologies(@CurrentUser('userId') userId: number) {
+  @Get('/:userId/technologies')
+  async getUserTechnologies(@Param('userId') userId: number) {
     return await this.accountService.getUserTechnologies(userId);
   }
 }
