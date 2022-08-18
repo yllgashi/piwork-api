@@ -70,4 +70,10 @@ export class AccountController {
   async getUserTechnologies(@Param('userId') userId: number) {
     return await this.accountService.getUserTechnologies(userId);
   }
+
+  @Auth()
+  @Get('/:userId/jobs')
+  async getUserJobs(@Param('userId') userId: number) {
+    return await this.accountService.getUserJobs(userId);
+  }
 }

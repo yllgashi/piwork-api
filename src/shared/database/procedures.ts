@@ -32,6 +32,7 @@ export class Procedure {
   static readonly USER_TECHNOLOGY_INSERT: string = 'Work.usp_UserTechnology_Insert';
   static readonly USER_TECHNOLOGY_DELETE_FOR_USER: string = 'Work.usp_UserTechnology_DeleteForUser';
   static readonly USER_TECHNOLOGY_GET_FOR_USER: string = 'Work.usp_UserTechnology_GetForUser';
+  static readonly JOB_GET_USER_JOBS: string = 'Work.Job_GetUserJobs';
   // notifications
   static readonly NOTIFICATIONS_GET_BY_USER: string = 'Work.usp_Notifications_GetByUser';
 }

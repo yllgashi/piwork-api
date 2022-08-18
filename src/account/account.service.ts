@@ -47,4 +47,8 @@ export class AccountService {
   async getUserTechnologies(userId: number) {
     return await this.accountRepository.getUserTechnologies(userId);
   }
+
+  async getUserJobs(userId: number) {
+    return await this.accountRepository.getUserJobs(userId);
+  }
 }

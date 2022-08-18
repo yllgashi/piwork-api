@@ -5,6 +5,7 @@ import { UserExperience } from './model/user-experience.model';
 import { UserField } from './model/user-field.model';
 import { UserTechnology } from './model/user-technology.model';
 import { UserDetails } from './model/user-details.model';
+import { UserJob } from './model/user-job.model';
 
 @Injectable()
 export class AccountRepository extends BaseRepository {
@@ -97,6 +98,16 @@ export class AccountRepository extends BaseRepository {
     return userTechnologies;
   }
 
+  async getUserJobs(userId: number): Promise<UserJob[]> {
+    const inputParams = [{ name: 'userId', value: userId }];
+    const { result } = await this.execProc(
+      Procedure.JOB_GET_USER_JOBS,
+      inputParams,
+    );
+    const userJobs: UserJob[] = this.mapUserJobs(result);
+    return userJobs;
+  }
+
   //#region mappers
   private mapUserExperience(queryResult: any): UserExperience[] {
     const userExperiences: UserExperience[] = queryResult.map((e) => {
@@ -127,11 +138,12 @@ export class AccountRepository extends BaseRepository {
 
   private mapUserTechnologies(queryResult: any): UserTechnology[] {
     const userTechnologies: UserTechnology[] = queryResult.map((e) => {
-      const { Id, TechnologyId, TechnologyName } = e;
+      const { Id, TechnologyId, TechnologyName, TechnologyIcon } = e;
       const technology: UserTechnology = {
         id: Id,
         technologyId: TechnologyId,
         technologyName: TechnologyName,
+        technologyIcon: TechnologyIcon,
       };
       return technology;
     });
@@ -164,6 +176,29 @@ export class AccountRepository extends BaseRepository {
       profilePic: ProfilePic,
     };
     return userDetails;
+  }
+
+  private mapUserJobs(queryResult: any): UserJob[] {
+    const userJobs: UserJob[] = queryResult.map((e) => {
+      const {
+        JobId,
+        JobTitle,
+        JobDescription,
+        JobPicture,
+        IsActive,
+        EmployerComment,
+      } = e;
+      const userJob: UserJob = {
+        jobId: JobId,
+        jobTitle: JobTitle,
+        jobDescription: JobDescription,
+        jobPicture: JobPicture,
+        isActive: IsActive,
+        employerComment: EmployerComment,
+      };
+      return userJob;
+    });
+    return userJobs;
   }
   //#endregion mappers
 }
