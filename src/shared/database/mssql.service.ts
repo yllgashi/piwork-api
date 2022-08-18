@@ -7,10 +7,7 @@ import { ProcedureResponse } from './models/procedure-response.model';
 
 @Injectable()
 export class MssqlService {
-  pool: sql.ConnectionPool;
-  constructor() {
-    this.pool = new sql.ConnectionPool(mssqlconfig());
-  }
+  constructor() {}
 
   async query(queryString) {
     const pool = new sql.ConnectionPool(mssqlconfig());
@@ -30,17 +27,18 @@ export class MssqlService {
     inputParams: ProcedureParameter[] = [],
     outputParams: ProcedureParameter[] = [],
   ) {
+    const pool = new sql.ConnectionPool(mssqlconfig());
     try {
-      await this.pool.connect();
+      await pool.connect();
       // create request
-      const request = await this.pool.request();
+      const request = await pool.request();
       // add input params
       inputParams.forEach((e) => request.input(e.name, e.value));
       // add output params
       outputParams.forEach((e) => request.output(e.name, e.value));
       // execute procedure
       const result = await request.execute(procedureName);
-      this.pool.close();
+      pool.close();
 
       const procResponse: ProcedureResponse = {
         result: result.recordset,
@@ -49,7 +47,7 @@ export class MssqlService {
 
       return procResponse;
     } catch (error) {
-      this.pool.close();
+      pool.close();
       throw error;
     }
   }
