@@ -11,10 +11,9 @@ export class JobDetails {
   publishedByUserId: number;
   publishedByUserFirstName: string;
   publishedByUserLastName: string;
-  publishedByUserPicture: string;
+  publisherProfilePic: string;
   priceAmount: number;
   isActive: boolean;
-  picture: string;
   jobTechnologies?: JobTechnology[];
   jobFields?: JobField[];
 }

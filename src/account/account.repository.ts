@@ -184,7 +184,7 @@ export class AccountRepository extends BaseRepository {
         JobId,
         JobTitle,
         JobDescription,
-        JobPicture,
+        PublisherProfilePic,
         IsActive,
         EmployerComment,
       } = e;
@@ -192,7 +192,7 @@ export class AccountRepository extends BaseRepository {
         jobId: JobId,
         jobTitle: JobTitle,
         jobDescription: JobDescription,
-        jobPicture: JobPicture,
+        publisherProfilePic: PublisherProfilePic,
         isActive: IsActive,
         employerComment: EmployerComment,
       };

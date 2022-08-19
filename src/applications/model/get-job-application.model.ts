@@ -3,7 +3,7 @@ export class GetJobApplication {
   jobId: number;
   jobTitle: string;
   jobDescription: string;
-  jobPicture: string;
+  publisherProfilePic: string;
   comment: string;
   jobApplicationPhaseId: string;
   jobApplicationPhaseDescription: string;
