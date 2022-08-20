@@ -3,9 +3,8 @@ import { Procedure } from 'src/shared/database/procedures';
 import { BaseRepository } from 'src/shared/database/base.repository';
 import { UserDetails } from './model/user-details.model';
 import { UserJob } from './model/user-job.model';
-import { Technology } from 'src/technology/model/technology.model';
-import { Field } from 'src/technology/model/field.model';
 import { Experience } from './model/experience.model';
+import { Skill } from 'src/skills/model/skill.model';
 
 @Injectable()
 export class AccountRepository extends BaseRepository {
@@ -17,6 +16,16 @@ export class AccountRepository extends BaseRepository {
     );
     const userDetails: UserDetails = this.mapUserDetails(result[0]);
     return userDetails;
+  }
+
+  async getUserSkills(userId: any): Promise<Skill[]> {
+    const inputParams = [{ name: 'userId', value: userId }];
+    const { result } = await this.execProc(
+      Procedure.USER_GET_SKILLS,
+      inputParams,
+    );
+    const skills: Skill[] = this.mapUserSkills(result);
+    return skills;
   }
 
   async getUserExperience(userId: number): Promise<Experience[]> {
@@ -54,50 +63,6 @@ export class AccountRepository extends BaseRepository {
     return {};
   }
 
-  async getUserFields(userId: number) {
-    const inputParams = [{ name: 'userId', value: userId }];
-    const { result } = await this.execProc(
-      Procedure.FIELD_GET_BY_USER_ID,
-      inputParams,
-    );
-    const userFields: Field[] = this.mapUserFields(result);
-    return userFields;
-  }
-
-  async createUserTechnology(userId: number, technologyId: number) {
-    const inputParams = [
-      { name: 'userId', value: userId },
-      { name: 'technologyId', value: technologyId },
-    ];
-    const { result } = await this.execProc(
-      Procedure.USER_TECHNOLOGY_INSERT,
-      inputParams,
-    );
-    return {};
-  }
-
-  async deleteUserTechnology(userId: number, technologyId: number) {
-    const inputParams = [
-      { name: 'userId', value: userId },
-      { name: 'technologyId', value: technologyId },
-    ];
-    const { result } = await this.execProc(
-      Procedure.USER_TECHNOLOGY_DELETE_FOR_USER,
-      inputParams,
-    );
-    return {};
-  }
-
-  async getUserTechnologies(userId: number) {
-    const inputParams = [{ name: 'userId', value: userId }];
-    const { result } = await this.execProc(
-      Procedure.USER_TECHNOLOGY_GET_FOR_USER,
-      inputParams,
-    );
-    const technologies: Technology[] = this.mapUserTechnologies(result);
-    return technologies;
-  }
-
   async getUserJobs(userId: number): Promise<UserJob[]> {
     const inputParams = [{ name: 'userId', value: userId }];
     const { result } = await this.execProc(
@@ -122,32 +87,6 @@ export class AccountRepository extends BaseRepository {
       return experience;
     });
     return userExperiences;
-  }
-
-  private mapUserFields(queryResult: any): Field[] {
-    const userFields: Field[] = queryResult.map((e) => {
-      const { Id, Name } = e;
-      const field: Field = {
-        id: Id,
-        name: Name,
-      };
-      return field;
-    });
-    return userFields;
-  }
-
-  private mapUserTechnologies(queryResult: any): Technology[] {
-    const userTechnologies: Technology[] = queryResult.map((e) => {
-      const { Id, Name, Description, Icon } = e;
-      const technology: Technology = {
-        id: Id,
-        name: Name,
-        description: Description,
-        icon: Icon,
-      };
-      return technology;
-    });
-    return userTechnologies;
   }
 
   private mapUserDetails(queryResult: any): UserDetails {
@@ -175,9 +114,8 @@ export class AccountRepository extends BaseRepository {
       insertDate: InsertDate,
       profilePic: ProfilePic,
       experience: null,
-      fields: null,
       jobs: null,
-      technologies: null,
+      skills: null,
     };
     return userDetails;
   }
@@ -203,6 +141,20 @@ export class AccountRepository extends BaseRepository {
       return userJob;
     });
     return userJobs;
+  }
+
+  private mapUserSkills(queryResult: any): Skill[] {
+    const skills: Skill[] = queryResult.map((e) => {
+      const { Id, Name, Description, Icon } = e;
+      const skill: Skill = {
+        id: Id,
+        name: Name,
+        description: Description,
+        icon: Icon,
+      };
+      return skill;
+    });
+    return skills;
   }
   //#endregion mappers
 }

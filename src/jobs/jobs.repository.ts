@@ -5,26 +5,34 @@ import { JobDetails } from './model/job-details.model';
 import { Job } from './model/job.model';
 import * as sql from 'mssql';
 import { JobCreate } from './model/job-create.model';
-import { JobField } from './model/job-field.model';
-import { JobTechnology } from './model/job-technology.model';
+import { Skill } from 'src/skills/model/skill.model';
 
 @Injectable()
 export class JobsRepository extends BaseRepository {
+  async getBasicJobDetails(jobId: number): Promise<JobDetails> {
+    const inputParams = [{ name: 'jobId', value: jobId }];
+    const { result } = await this.execProc(
+      Procedure.JOB_GET_DETAILS,
+      inputParams,
+    );
+    const jobDetails: JobDetails = this.mapJobDetails(result[0]);
+    return jobDetails;
+  }
+
+  async getJobRequiredSkills(jobId: number): Promise<Skill[]> {
+    const inputParams = [{ name: 'jobId', value: jobId }];
+    const { result } = await this.execProc(
+      Procedure.JOB_GET_REQUIRED_SKILLS,
+      inputParams,
+    );
+    const skills: Skill[] = this.mapSkills(result);
+    return skills;
+  }
+
   async getAllJobs(): Promise<Job[]> {
     const { result } = await this.execProc(Procedure.JOB_GET_ALL);
     const jobs: Job[] = this.mapJobs(result);
     return jobs;
-  }
-
-  async getJobDetails(jobId: number): Promise<JobDetails> {
-    let jobDetails: JobDetails = await this.getBasicJobDetails(jobId);
-    const jobRequiredTechnologiesQueryRes =
-      await this.getJobRequiredTechnologies(jobId);
-    jobDetails.jobFields = this.mapJobFields(jobRequiredTechnologiesQueryRes);
-    jobDetails.jobTechnologies = this.mapJobTechnologies(
-      jobRequiredTechnologiesQueryRes,
-    );
-    return jobDetails;
   }
 
   async createJob(userId: number, jobDetails: JobCreate) {
@@ -35,11 +43,11 @@ export class JobsRepository extends BaseRepository {
       estimatedDays,
       contactEmail,
       priceAmount,
-      technologiesIds,
+      skillsIds,
     } = jobDetails;
-    const tvpJobTechnologies = new sql.Table();
-    tvpJobTechnologies.columns.add('TechnologyId', sql.Int);
-    technologiesIds.forEach((e) => tvpJobTechnologies.rows.add(e));
+    const tvpJobSkills = new sql.Table();
+    tvpJobSkills.columns.add('SkillId', sql.Int);
+    skillsIds.forEach((e) => tvpJobSkills.rows.add(e));
     const inputParams = [
       { name: 'userId', value: userId },
       { name: 'title', value: title },
@@ -48,7 +56,7 @@ export class JobsRepository extends BaseRepository {
       { name: 'estimatedDays', value: estimatedDays },
       { name: 'contactEmail', value: contactEmail },
       { name: 'priceAmount', value: priceAmount },
-      { name: 'tvpJobTechnologies', value: tvpJobTechnologies },
+      { name: 'tvpJobSkills', value: tvpJobSkills },
     ];
     const { result } = await this.execProc(Procedure.JOB_CREATE, inputParams);
     return {};
@@ -93,43 +101,14 @@ export class JobsRepository extends BaseRepository {
     return {};
   }
 
-  async getJobsByField(fieldId: number) {
-    const inputParams = [{ name: 'fieldId', value: fieldId }];
+  async getJobsBySkill(skillId: number) {
+    const inputParams = [{ name: 'skillId', value: skillId }];
     const { result } = await this.execProc(
-      Procedure.JOB_GET_BY_FIELD_ID,
+      Procedure.JOB_GET_BY_SKILL_ID,
       inputParams,
     );
     const jobs: Job[] = this.mapJobs(result);
     return jobs;
-  }
-
-  async getJobsByTechnology(technologyId: number) {
-    const inputParams = [{ name: 'technologyId', value: technologyId }];
-    const { result } = await this.execProc(
-      Procedure.JOB_GET_BY_TECHNOLOGY_ID,
-      inputParams,
-    );
-    const jobs: Job[] = this.mapJobs(result);
-    return jobs;
-  }
-
-  private async getBasicJobDetails(jobId: number): Promise<JobDetails> {
-    const inputParams = [{ name: 'jobId', value: jobId }];
-    const { result } = await this.execProc(
-      Procedure.JOB_GET_DETAILS,
-      inputParams,
-    );
-    const jobDetails: JobDetails = this.mapJobDetails(result[0]);
-    return jobDetails;
-  }
-
-  private async getJobRequiredTechnologies(jobId: number): Promise<any> {
-    const inputParams = [{ name: 'jobId', value: jobId }];
-    const { result } = await this.execProc(
-      Procedure.JOB_GET_JOB_REQUIRED_TECHNOLOGIES,
-      inputParams,
-    );
-    return result;
   }
 
   //#region mappers
@@ -181,26 +160,18 @@ export class JobsRepository extends BaseRepository {
     return jobDetails;
   }
 
-  private mapJobTechnologies(queryResult: any): JobTechnology[] {
-    const jobTechnologies: JobTechnology[] = queryResult.map((e) => {
-      const { TechnologyId, TechnologyName, TechnologyIcon } = e;
-      const jobTechnology: JobTechnology = {
-        technologyId: TechnologyId,
-        technologyName: TechnologyName,
-        technologyIcon: TechnologyIcon,
+  private mapSkills(queryResult: any): Skill[] {
+    const skills: Skill[] = queryResult.map((e) => {
+      const { Id, Name, Description, Icon } = e;
+      const skill: Skill = {
+        id: Id,
+        name: Name,
+        description: Description,
+        icon: Icon,
       };
-      return jobTechnology;
+      return skill;
     });
-    return jobTechnologies;
-  }
-
-  private mapJobFields(queryResult: any): JobField[] {
-    const jobFields: JobField[] = queryResult.map((e) => {
-      const { FieldId, FieldName } = e;
-      const jobField: JobField = { fieldId: FieldId, fieldName: FieldName };
-      return jobField;
-    });
-    return jobFields;
+    return skills;
   }
   //#endregion mappers
 }

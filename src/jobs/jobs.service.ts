@@ -14,7 +14,13 @@ export class JobsService {
   }
 
   async getJobDetails(jobId: number): Promise<JobDetails> {
-    return await this.jobsRepository.getJobDetails(jobId);
+    let jobDetails: JobDetails = await this.jobsRepository.getBasicJobDetails(
+      jobId,
+    );
+    jobDetails.requiredSkills = await this.jobsRepository.getJobRequiredSkills(
+      jobId,
+    );
+    return jobDetails;
   }
 
   async createJob(userId: number, jobCreate: JobCreate) {
@@ -29,11 +35,7 @@ export class JobsService {
     return await this.jobsRepository.changeJobStatus(userId, jobId, isactive);
   }
 
-  async getJobsByField(fieldId: number) {
-    return await this.jobsRepository.getJobsByField(fieldId);
-  }
-
-  async getJobsByTechnology(technologyId: number) {
-    return await this.jobsRepository.getJobsByTechnology(technologyId);
+  async getJobsBySkill(skillId: number) {
+    return await this.jobsRepository.getJobsBySkill(skillId);
   }
 }

@@ -42,36 +42,6 @@ export class AccountController {
   }
 
   @Auth()
-  @Get('/:userId/fields')
-  async getUserFields(@Param('userId') userId: number) {
-    return await this.accountService.getUserFields(userId);
-  }
-
-  @Auth()
-  @Post('technologies/:id')
-  async createUserTechnology(
-    @CurrentUser('userId') userId: number,
-    @Param('id') id: number,
-  ) {
-    return await this.accountService.createUserTechnology(userId, id);
-  }
-
-  @Auth()
-  @Delete('technologies/:id')
-  async deleteUserTechnology(
-    @CurrentUser('userId') userId: number,
-    @Param('id') id: number,
-  ) {
-    return await this.accountService.deleteUserTechnology(userId, id);
-  }
-
-  @Auth()
-  @Get('/:userId/technologies')
-  async getUserTechnologies(@Param('userId') userId: number) {
-    return await this.accountService.getUserTechnologies(userId);
-  }
-
-  @Auth()
   @Get('/:userId/jobs')
   async getUserJobs(@Param('userId') userId: number) {
     return await this.accountService.getUserJobs(userId);

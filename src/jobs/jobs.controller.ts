@@ -13,7 +13,6 @@ import { JobCreate } from './model/job-create.model';
 export class JobsController {
   constructor(private jobsService: JobsService) {}
 
-
   @Get('')
   async getAllJobs(): Promise<Job[]> {
     return await this.jobsService.getAllJobs();
@@ -55,14 +54,8 @@ export class JobsController {
   }
 
   @Auth()
-  @Get('/field/:id')
-  async getJobsByField(@Param('id') id: number) {
-    return await this.jobsService.getJobsByField(id);
-  }
-
-  @Auth()
-  @Get('/technology/:id')
-  async getJobsByTechnologyId(@Param('id') id: number) {
-    return await this.jobsService.getJobsByTechnology(id);
+  @Get('/skill/:id')
+  async getJobsBySkill(@Param('id') id: number) {
+    return await this.jobsService.getJobsBySkill(id);
   }
 }

@@ -14,10 +14,7 @@ export class AccountService {
     userDetails.experience = await this.accountRepository.getUserExperience(
       userId,
     );
-    userDetails.technologies = await this.accountRepository.getUserTechnologies(
-      userId,
-    );
-    userDetails.fields = await this.accountRepository.getUserFields(userId);
+    userDetails.skills = await this.accountRepository.getUserSkills(userId);
     userDetails.jobs = await this.accountRepository.getUserJobs(userId);
     return userDetails;
   }
@@ -35,28 +32,6 @@ export class AccountService {
 
   async deleteUserExperience(id: number) {
     return await this.accountRepository.deleteUserExperience(id);
-  }
-
-  async getUserFields(userId: number) {
-    return await this.accountRepository.getUserFields(userId);
-  }
-
-  async createUserTechnology(userId: number, technologyId: number) {
-    return await this.accountRepository.createUserTechnology(
-      userId,
-      technologyId,
-    );
-  }
-
-  async deleteUserTechnology(userId: number, technologyId: number) {
-    return await this.accountRepository.deleteUserTechnology(
-      userId,
-      technologyId,
-    );
-  }
-
-  async getUserTechnologies(userId: number) {
-    return await this.accountRepository.getUserTechnologies(userId);
   }
 
   async getUserJobs(userId: number) {

@@ -1,5 +1,4 @@
-import { Field } from 'src/technology/model/field.model';
-import { Technology } from 'src/technology/model/technology.model';
+import { Skill } from 'src/skills/model/skill.model';
 import { Experience } from './experience.model';
 import { UserJob } from './user-job.model';
 
@@ -15,7 +14,6 @@ export class UserDetails {
   insertDate: Date;
   profilePic: string;
   experience: Experience[];
-  fields: Field[];
-  technologies: Technology[];
+  skills: Skill[];
   jobs: UserJob[];
 }
