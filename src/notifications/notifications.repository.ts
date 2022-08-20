@@ -26,6 +26,7 @@ export class NotificationsRepository extends BaseRepository {
         IsSent,
         IsRead,
         Message,
+        Picture,
         InsertDate,
       } = e;
       const notification: Notification = {
@@ -36,6 +37,7 @@ export class NotificationsRepository extends BaseRepository {
         isSent: IsSent,
         isRead: IsRead,
         message: Message,
+        picture: Picture,
         insertDate: InsertDate,
       };
       return notification;

@@ -6,5 +6,6 @@ export class Notification {
   isSent: boolean;
   isRead: boolean;
   message: string;
+  picture: string;
   insertDate: Date;
 }
