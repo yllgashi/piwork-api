@@ -35,11 +35,11 @@ export class JobsRepository extends BaseRepository {
       estimatedDays,
       contactEmail,
       priceAmount,
-      jobTechnologiesIds,
+      technologiesIds,
     } = jobDetails;
     const tvpJobTechnologies = new sql.Table();
     tvpJobTechnologies.columns.add('TechnologyId', sql.Int);
-    jobTechnologiesIds.forEach((e) => tvpJobTechnologies.rows.add(e));
+    technologiesIds.forEach((e) => tvpJobTechnologies.rows.add(e));
     const inputParams = [
       { name: 'userId', value: userId },
       { name: 'title', value: title },

@@ -24,5 +24,5 @@ export class JobCreate {
   priceAmount: number;
 
   @ApiProperty()
-  jobTechnologiesIds?: number[];
+  technologiesIds?: number[];
 }

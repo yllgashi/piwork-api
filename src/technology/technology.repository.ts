@@ -21,11 +21,12 @@ export class TechnologyRepository extends BaseRepository {
   //#region mappers
   private mapTechnologies(queryResult: any): Technology[] {
     const technologies: Technology[] = queryResult.map((e) => {
-      const { Id, Name, Description, FieldId, Field } = e;
+      const { Id, Name, Description, Icon, FieldId, Field } = e;
       const technology: Technology = {
         id: Id,
         name: Name,
         description: Description,
+        icon: Icon,
         fieldId: FieldId,
         field: Field,
       };

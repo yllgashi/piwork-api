@@ -31,7 +31,7 @@ export class MssqlService {
     try {
       await pool.connect();
       // create request
-      const request = await pool.request();
+      const request = pool.request();
       // add input params
       inputParams.forEach((e) => request.input(e.name, e.value));
       // add output params
