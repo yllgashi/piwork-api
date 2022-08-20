@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UserExperience } from './model/user-experience.model';
+import { Experience } from './model/experience.model';
 import { AccountRepository } from './account.repository';
 import { UserDetails } from './model/user-details.model';
 
@@ -7,15 +7,26 @@ import { UserDetails } from './model/user-details.model';
 export class AccountService {
   constructor(private accountRepository: AccountRepository) {}
 
-  async getUserDetails(id: any): Promise<UserDetails> {
-    return await this.accountRepository.getUserDetails(id);
+  async getUserDetails(userId: number): Promise<UserDetails> {
+    let userDetails: UserDetails = await this.accountRepository.getUserInfo(
+      userId,
+    );
+    userDetails.experience = await this.accountRepository.getUserExperience(
+      userId,
+    );
+    userDetails.technologies = await this.accountRepository.getUserTechnologies(
+      userId,
+    );
+    userDetails.fields = await this.accountRepository.getUserFields(userId);
+    userDetails.jobs = await this.accountRepository.getUserJobs(userId);
+    return userDetails;
   }
 
-  async getUserExperience(userId: number): Promise<UserExperience[]> {
+  async getUserExperience(userId: number): Promise<Experience[]> {
     return await this.accountRepository.getUserExperience(userId);
   }
 
-  async createUserExperience(userId: number, experience: UserExperience) {
+  async createUserExperience(userId: number, experience: Experience) {
     return await this.accountRepository.createUserExperience(
       userId,
       experience,

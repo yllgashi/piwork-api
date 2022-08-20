@@ -3,8 +3,8 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Auth } from 'src/shared/decorators/auth.decorator';
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
 import { AccountService } from './account.service';
+import { Experience } from './model/experience.model';
 import { UserDetails } from './model/user-details.model';
-import { UserExperience } from './model/user-experience.model';
 
 @ApiBearerAuth()
 @ApiTags('Account')
@@ -22,7 +22,7 @@ export class AccountController {
   @Get('/:userId/experience')
   async getUserExperience(
     @Param('userId') userId: number,
-  ): Promise<UserExperience[]> {
+  ): Promise<Experience[]> {
     return await this.accountService.getUserExperience(userId);
   }
 
@@ -30,7 +30,7 @@ export class AccountController {
   @Post('experience')
   async createUserExperience(
     @CurrentUser('userId') userId: number,
-    @Body() experience: UserExperience,
+    @Body() experience: Experience,
   ) {
     return await this.accountService.createUserExperience(userId, experience);
   }

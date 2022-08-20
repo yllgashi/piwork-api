@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { Procedure } from 'src/shared/database/procedures';
 import { BaseRepository } from 'src/shared/database/base.repository';
-import { UserExperience } from './model/user-experience.model';
-import { UserField } from './model/user-field.model';
-import { UserTechnology } from './model/user-technology.model';
 import { UserDetails } from './model/user-details.model';
 import { UserJob } from './model/user-job.model';
+import { Technology } from 'src/technology/model/technology.model';
+import { Field } from 'src/technology/model/field.model';
+import { Experience } from './model/experience.model';
 
 @Injectable()
 export class AccountRepository extends BaseRepository {
-  async getUserDetails(userId: any): Promise<UserDetails> {
+  async getUserInfo(userId: any): Promise<UserDetails> {
     const inputParams = [{ name: 'userId', value: userId }];
     const { result } = await this.execProc(
       Procedure.USER_GET_DETAILS,
@@ -19,17 +19,17 @@ export class AccountRepository extends BaseRepository {
     return userDetails;
   }
 
-  async getUserExperience(userId: number): Promise<UserExperience[]> {
+  async getUserExperience(userId: number): Promise<Experience[]> {
     const inputParams = [{ name: 'userId', value: userId }];
     const { result } = await this.execProc(
       Procedure.EXPERIENCE_GET_BY_USER_ID,
       inputParams,
     );
-    const userExperience: UserExperience[] = this.mapUserExperience(result);
+    const userExperience: Experience[] = this.mapUserExperience(result);
     return userExperience;
   }
 
-  async createUserExperience(userId: number, experience: UserExperience) {
+  async createUserExperience(userId: number, experience: Experience) {
     const { workplaceName, description, startDate, endDate } = experience;
     const inputParams = [
       { name: 'userId', value: userId },
@@ -60,7 +60,7 @@ export class AccountRepository extends BaseRepository {
       Procedure.FIELD_GET_BY_USER_ID,
       inputParams,
     );
-    const userFields: UserField[] = this.mapUserFields(result);
+    const userFields: Field[] = this.mapUserFields(result);
     return userFields;
   }
 
@@ -94,8 +94,8 @@ export class AccountRepository extends BaseRepository {
       Procedure.USER_TECHNOLOGY_GET_FOR_USER,
       inputParams,
     );
-    const userTechnologies: UserTechnology[] = this.mapUserTechnologies(result);
-    return userTechnologies;
+    const technologies: Technology[] = this.mapUserTechnologies(result);
+    return technologies;
   }
 
   async getUserJobs(userId: number): Promise<UserJob[]> {
@@ -109,10 +109,10 @@ export class AccountRepository extends BaseRepository {
   }
 
   //#region mappers
-  private mapUserExperience(queryResult: any): UserExperience[] {
-    const userExperiences: UserExperience[] = queryResult.map((e) => {
+  private mapUserExperience(queryResult: any): Experience[] {
+    const userExperiences: Experience[] = queryResult.map((e) => {
       const { Id, WorkplaceName, Description, StartDate, EndDate } = e;
-      const experience: UserExperience = {
+      const experience: Experience = {
         id: Id,
         workplaceName: WorkplaceName,
         description: Description,
@@ -124,10 +124,10 @@ export class AccountRepository extends BaseRepository {
     return userExperiences;
   }
 
-  private mapUserFields(queryResult: any): UserField[] {
-    const userFields: UserField[] = queryResult.map((e) => {
+  private mapUserFields(queryResult: any): Field[] {
+    const userFields: Field[] = queryResult.map((e) => {
       const { Id, Name } = e;
-      const field: UserField = {
+      const field: Field = {
         id: Id,
         name: Name,
       };
@@ -136,14 +136,14 @@ export class AccountRepository extends BaseRepository {
     return userFields;
   }
 
-  private mapUserTechnologies(queryResult: any): UserTechnology[] {
-    const userTechnologies: UserTechnology[] = queryResult.map((e) => {
-      const { Id, TechnologyId, TechnologyName, TechnologyIcon } = e;
-      const technology: UserTechnology = {
+  private mapUserTechnologies(queryResult: any): Technology[] {
+    const userTechnologies: Technology[] = queryResult.map((e) => {
+      const { Id, Name, Description, Icon } = e;
+      const technology: Technology = {
         id: Id,
-        technologyId: TechnologyId,
-        technologyName: TechnologyName,
-        technologyIcon: TechnologyIcon,
+        name: Name,
+        description: Description,
+        icon: Icon,
       };
       return technology;
     });
@@ -174,6 +174,10 @@ export class AccountRepository extends BaseRepository {
       isActive: IsActive,
       insertDate: InsertDate,
       profilePic: ProfilePic,
+      experience: null,
+      fields: null,
+      jobs: null,
+      technologies: null,
     };
     return userDetails;
   }

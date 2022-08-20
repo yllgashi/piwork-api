@@ -3,6 +3,6 @@ export class Technology {
   name: string;
   description: string;
   icon: string;
-  fieldId: number;
-  field: string;
+  fieldId?: number;
+  field?: string;
 }
