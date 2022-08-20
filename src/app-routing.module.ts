@@ -7,6 +7,7 @@ import { JobsModule } from './jobs/jobs.module';
 import { ApplicationsModule } from './applications/applications.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { FilesModule } from './files/files.module';
+import { SkillsModule } from './skills/skills.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { FilesModule } from './files/files.module';
     ApplicationsModule,
     NotificationsModule,
     FilesModule,
+    SkillsModule,
   ],
 })
 export class AppRoutingModule {}

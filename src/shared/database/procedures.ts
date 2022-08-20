@@ -2,6 +2,8 @@ export class Procedure {
   // auth
   static readonly REGISTER: string = 'Administration.usp_User_Register';
   static readonly LOGIN: string = 'Administration.usp_User_Login';
+  // skills
+  static readonly SKILLS_GET_ALL: string = 'Work.usp_Skill_GetAll';
   // technology
   static readonly TECHNOLOGY_GET_ALL: string = 'Work.usp_Technology_GetAll';
   static readonly FIELD_GET_ALL: string = 'Work.usp_Field_GetAll';
