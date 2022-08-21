@@ -19,6 +19,15 @@ export class JobsController {
   }
 
   @Auth()
+  @Get('/filter?')
+  async filterJobs(
+    @Query('title') title: string,
+    @Query('skillId') skillId: number,
+  ): Promise<Job[]> {
+    return await this.jobsService.filterJobs(title, skillId);
+  }
+
+  @Auth()
   @Get('/:id')
   async getJobDetails(@Param('id') id: number): Promise<JobDetails> {
     return await this.jobsService.getJobDetails(id);

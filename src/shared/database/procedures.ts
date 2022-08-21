@@ -6,6 +6,7 @@ export class Procedure {
   static readonly SKILLS_GET_ALL: string = 'Work.usp_Skill_GetAll';
   // jobs
   static readonly JOB_GET_ALL: string = 'Work.usp_Job_GetAll';
+  static readonly JOB_FILTER_BY_TITLE_AND_SKILL: string = 'Work.usp_Job_ByTitleAndSkill'
   static readonly JOB_GET_DETAILS: string = 'Work.usp_Job_GetDetails';
   static readonly JOB_CREATE: string = 'Work.usp_Job_Insert';
   static readonly JOB_UPDATE: string = 'Work.usp_Job_Update';
