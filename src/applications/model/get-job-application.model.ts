@@ -4,6 +4,7 @@ export class GetJobApplication {
   jobTitle: string;
   jobDescription: string;
   publisherProfilePic: string;
+  applicantUserId: number;
   applicantFirstName: string;
   applicantLastName: string;
   comment: string;
