@@ -21,6 +21,14 @@ export class ApplicationsController {
   }
 
   @Auth()
+  @Get('/announced')
+  async getAnnouncedJobs(
+    @CurrentUser('userId') userId: number,
+  ): Promise<GetJobApplication[]> {
+    return await this.applicationsService.getAnnouncedJobs(userId);
+  }
+
+  @Auth()
   @Get('/:id')
   async getJobApplicationDetails(
     @Param('id') id: number,

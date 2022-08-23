@@ -17,6 +17,17 @@ export class ApplicationsRepository extends BaseRepository {
     return getJobApplications;
   }
 
+  async getAnnouncedJobs(userId: number): Promise<GetJobApplication[]> {
+    const inputParams = [{ name: 'userId', value: userId }];
+    const { result } = await this.execProc(
+      Procedure.JOB_APPLICATION_GET_ANNOUNCED_BY_USER,
+      inputParams,
+    );
+    const getJobApplications: GetJobApplication[] =
+      this.mapGetJobApplications(result);
+    return getJobApplications;
+  }
+
   async getJobApplicationDetails(
     applicationId: number,
   ): Promise<GetJobApplication> {

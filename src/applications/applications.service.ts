@@ -11,6 +11,10 @@ export class ApplicationsService {
     return await this.applicationsRepository.getJobApplicationsByUser(userId);
   }
 
+  async getAnnouncedJobs(userId: number): Promise<GetJobApplication[]> {
+    return await this.applicationsRepository.getAnnouncedJobs(userId);
+  }
+
   async getJobApplicationDetails(
     applicationId: number,
   ): Promise<GetJobApplication> {

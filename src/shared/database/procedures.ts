@@ -15,6 +15,7 @@ export class Procedure {
   static readonly JOB_GET_REQUIRED_SKILLS: string = 'Work.usp_JobSkills_GetJobRequiredSkills'
   // applications
   static readonly JOB_APPLICATION_GET_BY_USER: string = 'Work.usp_JobApplication_GetByUser';
+  static readonly JOB_APPLICATION_GET_ANNOUNCED_BY_USER: string = 'Work.usp_JobApplication_GetAnnouncedByUser'
   static readonly JOB_APPLICATION_GET_DETAILS: string = 'Work.usp_JobApplication_GetDetails'
   static readonly JOB_APPLICATION_CREATE: string = 'Work.usp_JobApplication_Insert';
   static readonly JOB_APPLICATION_DELETE: string = 'Work.usp_JobApplication_Delete';
@@ -29,6 +30,7 @@ export class Procedure {
   static readonly EXPERIENCE_INSERT: string = 'Work.usp_Experience_Insert';
   static readonly EXPERIENCE_DELETE_FOR_USER: string = 'Work.usp_Experience_DeleteForUser';
   static readonly JOB_GET_USER_JOBS: string = 'Work.Job_GetUserJobs';
+  static readonly USER_SKILL_INSERT: string = 'Work.usp_UserSkill_Insert';
   // notifications
   static readonly NOTIFICATIONS_GET_BY_USER: string = 'Work.usp_Notifications_GetByUser';
 }

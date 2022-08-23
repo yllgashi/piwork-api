@@ -5,6 +5,7 @@ import { UserDetails } from './model/user-details.model';
 import { UserJob } from './model/user-job.model';
 import { Experience } from './model/experience.model';
 import { Skill } from 'src/skills/model/skill.model';
+import { CreateSkill } from './model/create-skill.model';
 
 @Injectable()
 export class AccountRepository extends BaseRepository {
@@ -71,6 +72,18 @@ export class AccountRepository extends BaseRepository {
     );
     const userJobs: UserJob[] = this.mapUserJobs(result);
     return userJobs;
+  }
+
+  async createUserSkill(userId: number, skill: CreateSkill) {
+    const inputParams = [
+      { name: 'userId', value: userId },
+      { name: 'skillId', value: skill.skillId },
+    ];
+    const { result } = await this.execProc(
+      Procedure.USER_SKILL_INSERT,
+      inputParams,
+    );
+    return {};
   }
 
   //#region mappers

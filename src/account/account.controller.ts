@@ -3,6 +3,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Auth } from 'src/shared/decorators/auth.decorator';
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
 import { AccountService } from './account.service';
+import { CreateSkill } from './model/create-skill.model';
 import { Experience } from './model/experience.model';
 import { UserDetails } from './model/user-details.model';
 
@@ -45,5 +46,14 @@ export class AccountController {
   @Get('/:userId/jobs')
   async getUserJobs(@Param('userId') userId: number) {
     return await this.accountService.getUserJobs(userId);
+  }
+
+  @Auth()
+  @Post('/skills')
+  async createUserSkill(
+    @CurrentUser('userId') userId: number,
+    @Body() skill: CreateSkill,
+  ) {
+    return await this.accountService.createUserSkill(userId, skill);
   }
 }

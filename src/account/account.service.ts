@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Experience } from './model/experience.model';
 import { AccountRepository } from './account.repository';
 import { UserDetails } from './model/user-details.model';
+import { CreateSkill } from './model/create-skill.model';
 
 @Injectable()
 export class AccountService {
@@ -36,5 +37,9 @@ export class AccountService {
 
   async getUserJobs(userId: number) {
     return await this.accountRepository.getUserJobs(userId);
+  }
+
+  async createUserSkill(userId: number, skill: CreateSkill) {
+    return await this.accountRepository.createUserSkill(userId, skill);
   }
 }
