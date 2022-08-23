@@ -35,6 +35,16 @@ export class JobsRepository extends BaseRepository {
     return jobs;
   }
 
+  async getAnnouncedJobs(userId: number): Promise<Job[]> {
+    const inputParams = [{ name: 'userId', value: userId }];
+    const { result } = await this.execProc(
+      Procedure.JOB_GET_ALL_ANNOUNCED_BY_USER,
+      inputParams,
+    );
+    const jobs: Job[] = this.mapJobs(result);
+    return jobs;
+  }
+
   async filterJobs(title: string, skillId: number): Promise<Job[]> {
     const inputParams = [
       { name: 'title', value: title },

@@ -13,6 +13,10 @@ export class JobsService {
     return await this.jobsRepository.getAllJobs();
   }
 
+  async getAnnouncedJobs(userId: number): Promise<Job[]> {
+    return await this.jobsRepository.getAnnouncedJobs(userId);
+  }
+
   async filterJobs(title: string, skillId: number): Promise<Job[]> {
     return await this.jobsRepository.filterJobs(title, skillId);
   }

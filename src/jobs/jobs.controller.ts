@@ -13,9 +13,18 @@ import { JobCreate } from './model/job-create.model';
 export class JobsController {
   constructor(private jobsService: JobsService) {}
 
+  @Auth()
   @Get('')
   async getAllJobs(): Promise<Job[]> {
     return await this.jobsService.getAllJobs();
+  }
+
+  @Auth()
+  @Get('/announced')
+  async getAnnouncedJobs(
+    @CurrentUser('userId') userId: number,
+  ): Promise<Job[]> {
+    return await this.jobsService.getAnnouncedJobs(userId);
   }
 
   @Auth()
