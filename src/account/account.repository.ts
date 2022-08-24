@@ -86,6 +86,18 @@ export class AccountRepository extends BaseRepository {
     return {};
   }
 
+  async changeUserDescription(userId: number, description: string) {
+    const inputParams = [
+      { name: 'userId', value: userId },
+      { name: 'description', value: description },
+    ];
+    const { result } = await this.execProc(
+      Procedure.USER_CHANGE_DESCRIPTION,
+      inputParams,
+    );
+    return {};
+  }
+
   //#region mappers
   private mapUserExperience(queryResult: any): Experience[] {
     const userExperiences: Experience[] = queryResult.map((e) => {

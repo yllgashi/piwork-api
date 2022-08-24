@@ -42,4 +42,11 @@ export class AccountService {
   async createUserSkill(userId: number, skill: CreateSkill) {
     return await this.accountRepository.createUserSkill(userId, skill);
   }
+
+  async changeUserDescription(userId: number, description: string) {
+    return await this.accountRepository.changeUserDescription(
+      userId,
+      description,
+    );
+  }
 }

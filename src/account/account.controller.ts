@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Auth } from 'src/shared/decorators/auth.decorator';
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
@@ -55,5 +63,14 @@ export class AccountController {
     @Body() skill: CreateSkill,
   ) {
     return await this.accountService.createUserSkill(userId, skill);
+  }
+
+  @Auth()
+  @Put('/change-description')
+  async changeUserDescription(
+    @CurrentUser('userId') userId: number,
+    @Body() { description }: { description: string },
+  ) {
+    return await this.accountService.changeUserDescription(userId, description);
   }
 }
