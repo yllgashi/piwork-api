@@ -1,19 +1,21 @@
 import { Injectable } from '@nestjs/common';
+import { MssqlService } from 'src/shared/database/mssql.service';
 import { Procedure } from 'src/shared/database/procedures';
-import { BaseRepository } from 'src/shared/database/base.repository';
 import { Login } from './models/login.model';
 import { Register } from './models/register.model';
 import { TokenInfo } from './models/token-info.model';
 
 @Injectable()
-export class AuthRepository extends BaseRepository {
+export class AuthRepository {
+  constructor(private db: MssqlService) {}
+  
   async login(loginUser: Login): Promise<TokenInfo> {
     const { email, password } = loginUser;
     const inputParams = [
       { name: 'email', value: email },
       { name: 'password', value: password },
     ];
-    const { result } = await this.execProc(Procedure.LOGIN, inputParams);
+    const { result } = await this.db.execProcedure(Procedure.LOGIN, inputParams);
     const userTokenData = this.mapTokenFromLoginAndRegister(result[0]);
     return userTokenData;
   }
@@ -29,7 +31,7 @@ export class AuthRepository extends BaseRepository {
       { name: 'roleId', value: roleId },
       { name: 'password', value: password },
     ];
-    const { result } = await this.execProc(Procedure.REGISTER, inputParams);
+    const { result } = await this.db.execProcedure(Procedure.REGISTER, inputParams);
     const userTokenData = this.mapTokenFromLoginAndRegister(result[0]);
     return userTokenData;
   }

@@ -1,17 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { Procedure } from 'src/shared/database/procedures';
-import { BaseRepository } from 'src/shared/database/base.repository';
 import { JobDetails } from './model/job-details.model';
 import { Job } from './model/job.model';
 import * as sql from 'mssql';
 import { JobCreate } from './model/job-create.model';
 import { Skill } from 'src/skills/model/skill.model';
+import { MssqlService } from 'src/shared/database/mssql.service';
 
 @Injectable()
-export class JobsRepository extends BaseRepository {
+export class JobsRepository  {
+  constructor(private db: MssqlService) {}
+  
   async getBasicJobDetails(jobId: number): Promise<JobDetails> {
     const inputParams = [{ name: 'jobId', value: jobId }];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.JOB_GET_DETAILS,
       inputParams,
     );
@@ -21,7 +23,7 @@ export class JobsRepository extends BaseRepository {
 
   async getJobRequiredSkills(jobId: number): Promise<Skill[]> {
     const inputParams = [{ name: 'jobId', value: jobId }];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.JOB_GET_REQUIRED_SKILLS,
       inputParams,
     );
@@ -30,14 +32,14 @@ export class JobsRepository extends BaseRepository {
   }
 
   async getAllJobs(): Promise<Job[]> {
-    const { result } = await this.execProc(Procedure.JOB_GET_ALL);
+    const { result } = await this.db.execProcedure(Procedure.JOB_GET_ALL);
     const jobs: Job[] = this.mapJobs(result);
     return jobs;
   }
 
   async getAnnouncedJobs(userId: number): Promise<Job[]> {
     const inputParams = [{ name: 'userId', value: userId }];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.JOB_GET_ALL_ANNOUNCED_BY_USER,
       inputParams,
     );
@@ -50,7 +52,7 @@ export class JobsRepository extends BaseRepository {
       { name: 'title', value: title },
       { name: 'skillId', value: skillId },
     ];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.JOB_FILTER_BY_TITLE_AND_SKILL,
       inputParams,
     );
@@ -81,7 +83,7 @@ export class JobsRepository extends BaseRepository {
       { name: 'priceAmount', value: priceAmount },
       { name: 'tvpJobSkills', value: tvpJobSkills },
     ];
-    const { result } = await this.execProc(Procedure.JOB_CREATE, inputParams);
+    const { result } = await this.db.execProcedure(Procedure.JOB_CREATE, inputParams);
     return {};
   }
 
@@ -107,7 +109,7 @@ export class JobsRepository extends BaseRepository {
       { name: 'contactEmail', value: contactEmail },
       { name: 'priceAmount', value: priceAmount },
     ];
-    const { result } = await this.execProc(Procedure.JOB_UPDATE, inputParams);
+    const { result } = await this.db.execProcedure(Procedure.JOB_UPDATE, inputParams);
     return {};
   }
 
@@ -117,7 +119,7 @@ export class JobsRepository extends BaseRepository {
       { name: 'jobId', value: jobId },
       { name: 'isActive', value: isactive },
     ];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.JOB_CHANGE_STATUS,
       inputParams,
     );
@@ -126,7 +128,7 @@ export class JobsRepository extends BaseRepository {
 
   async getJobsBySkill(skillId: number) {
     const inputParams = [{ name: 'skillId', value: skillId }];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.JOB_GET_BY_SKILL_ID,
       inputParams,
     );

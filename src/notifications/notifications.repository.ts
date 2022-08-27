@@ -1,13 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { BaseRepository } from 'src/shared/database/base.repository';
+import { MssqlService } from 'src/shared/database/mssql.service';
 import { Procedure } from 'src/shared/database/procedures';
 import { Notification } from './model/notification.model';
 
 @Injectable()
-export class NotificationsRepository extends BaseRepository {
+export class NotificationsRepository  {
+  constructor(private db: MssqlService) {}
+  
   async getNotificationsByUser(userId: number): Promise<Notification[]> {
     const inputParams = [{ name: 'userId', value: userId }];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.NOTIFICATIONS_GET_BY_USER,
       inputParams,
     );

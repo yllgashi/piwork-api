@@ -1,10 +1,14 @@
-import { BaseRepository } from 'src/shared/database/base.repository';
+import { Injectable } from '@nestjs/common';
+import { MssqlService } from 'src/shared/database/mssql.service';
 import { Procedure } from 'src/shared/database/procedures';
 import { Skill } from './model/skill.model';
 
-export class SkillsRepository extends BaseRepository {
+@Injectable()
+export class SkillsRepository {
+  constructor(private db: MssqlService) {}
+
   async getAllSkills(): Promise<Skill[]> {
-    const { result } = await this.execProc(Procedure.SKILLS_GET_ALL);
+    const { result } = await this.db.execProcedure(Procedure.SKILLS_GET_ALL);
     const skills: Skill[] = this.mapSkills(result);
     return skills;
   }

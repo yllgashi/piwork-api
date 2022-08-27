@@ -1,17 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { Procedure } from 'src/shared/database/procedures';
-import { BaseRepository } from 'src/shared/database/base.repository';
 import { UserDetails } from './model/user-details.model';
 import { UserJob } from './model/user-job.model';
 import { Experience } from './model/experience.model';
 import { Skill } from 'src/skills/model/skill.model';
 import { CreateSkill } from './model/create-skill.model';
+import { MssqlService } from 'src/shared/database/mssql.service';
 
 @Injectable()
-export class AccountRepository extends BaseRepository {
+export class AccountRepository  {
+  constructor(private db: MssqlService) {}
+
   async getUserInfo(userId: any): Promise<UserDetails> {
     const inputParams = [{ name: 'userId', value: userId }];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.USER_GET_DETAILS,
       inputParams,
     );
@@ -21,7 +23,7 @@ export class AccountRepository extends BaseRepository {
 
   async getUserSkills(userId: any): Promise<Skill[]> {
     const inputParams = [{ name: 'userId', value: userId }];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.USER_GET_SKILLS,
       inputParams,
     );
@@ -31,7 +33,7 @@ export class AccountRepository extends BaseRepository {
 
   async getUserExperience(userId: number): Promise<Experience[]> {
     const inputParams = [{ name: 'userId', value: userId }];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.EXPERIENCE_GET_BY_USER_ID,
       inputParams,
     );
@@ -48,7 +50,7 @@ export class AccountRepository extends BaseRepository {
       { name: 'startDate', value: startDate },
       { name: 'endDate', value: endDate },
     ];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.EXPERIENCE_INSERT,
       inputParams,
     );
@@ -57,7 +59,7 @@ export class AccountRepository extends BaseRepository {
 
   async deleteUserExperience(id: number) {
     const inputParams = [{ name: 'experienceId', value: id }];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.EXPERIENCE_DELETE_FOR_USER,
       inputParams,
     );
@@ -66,7 +68,7 @@ export class AccountRepository extends BaseRepository {
 
   async getUserJobs(userId: number): Promise<UserJob[]> {
     const inputParams = [{ name: 'userId', value: userId }];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.JOB_GET_USER_JOBS,
       inputParams,
     );
@@ -79,7 +81,7 @@ export class AccountRepository extends BaseRepository {
       { name: 'userId', value: userId },
       { name: 'skillId', value: skill.skillId },
     ];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.USER_SKILL_INSERT,
       inputParams,
     );
@@ -91,7 +93,7 @@ export class AccountRepository extends BaseRepository {
       { name: 'userId', value: userId },
       { name: 'description', value: description },
     ];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.USER_CHANGE_DESCRIPTION,
       inputParams,
     );

@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { Procedure } from 'src/shared/database/procedures';
-import { BaseRepository } from 'src/shared/database/base.repository';
 import { JobApplication } from './model/job-application.model';
 import { GetJobApplication } from './model/get-job-application.model';
+import { MssqlService } from 'src/shared/database/mssql.service';
 
 @Injectable()
-export class ApplicationsRepository extends BaseRepository {
+export class ApplicationsRepository {
+  constructor(private db: MssqlService) {}
+
   async getJobApplicationsByUser(userId: number): Promise<GetJobApplication[]> {
     const inputParams = [{ name: 'userId', value: userId }];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.JOB_APPLICATION_GET_BY_USER,
       inputParams,
     );
@@ -19,7 +21,7 @@ export class ApplicationsRepository extends BaseRepository {
 
   async getAnnouncedJobs(userId: number): Promise<GetJobApplication[]> {
     const inputParams = [{ name: 'userId', value: userId }];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.JOB_APPLICATION_GET_ANNOUNCED_BY_USER,
       inputParams,
     );
@@ -32,7 +34,7 @@ export class ApplicationsRepository extends BaseRepository {
     applicationId: number,
   ): Promise<GetJobApplication> {
     const inputParams = [{ name: 'applicationId', value: applicationId }];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.JOB_APPLICATION_GET_DETAILS,
       inputParams,
     );
@@ -48,7 +50,7 @@ export class ApplicationsRepository extends BaseRepository {
       { name: 'jobId', value: jobId },
       { name: 'comment', value: comment },
     ];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.JOB_APPLICATION_CREATE,
       inputParams,
     );
@@ -60,7 +62,7 @@ export class ApplicationsRepository extends BaseRepository {
       { name: 'userId', value: userId },
       { name: 'jobId', value: jobId },
     ];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.JOB_APPLICATION_DELETE,
       inputParams,
     );
@@ -72,7 +74,7 @@ export class ApplicationsRepository extends BaseRepository {
       { name: 'userId', value: userId },
       { name: 'jobApplicationId', value: jobApplicationId },
     ];
-    const { result } = await this.execProc(
+    const { result } = await this.db.execProcedure(
       Procedure.JOB_APPLICATION_CHOOSE_WINNER,
       inputParams,
     );
