@@ -19,6 +19,17 @@ export class ApplicationsRepository {
     return getJobApplications;
   }
 
+  async getApplicationsByJobId(jobId: number): Promise<GetJobApplication[]> {
+    const inputParams = [{ name: 'jobId', value: jobId }];
+    const { result } = await this.db.execProcedure(
+      Procedure.JOB_APPLICATION_GET_BY_JOB_ID,
+      inputParams,
+    );
+    const getJobApplications: GetJobApplication[] =
+      this.mapGetJobApplications(result);
+    return getJobApplications;
+  }
+
   async getAnnouncedJobs(userId: number): Promise<GetJobApplication[]> {
     const inputParams = [{ name: 'userId', value: userId }];
     const { result } = await this.db.execProcedure(

@@ -16,6 +16,7 @@ export class Procedure {
   static readonly JOB_GET_REQUIRED_SKILLS: string = 'Work.usp_JobSkills_GetJobRequiredSkills'
   // applications
   static readonly JOB_APPLICATION_GET_BY_USER: string = 'Work.usp_JobApplication_GetByUser';
+  static readonly JOB_APPLICATION_GET_BY_JOB_ID: string = 'Work.usp_JobApplication_GetByJobId';
   static readonly JOB_APPLICATION_GET_ANNOUNCED_BY_USER: string = 'Work.usp_JobApplication_GetAnnouncedByUser'
   static readonly JOB_APPLICATION_GET_DETAILS: string = 'Work.usp_JobApplication_GetDetails'
   static readonly JOB_APPLICATION_CREATE: string = 'Work.usp_JobApplication_Insert';
