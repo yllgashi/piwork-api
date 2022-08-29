@@ -67,7 +67,7 @@ export class ApplicationsController {
   }
 
   @Auth()
-  @Post('/:id')
+  @Post('select-winner-application/:id')
   async chooseJobApplicationWinner(
     @CurrentUser('userId') userId: number,
     @Param('id') id: number,
