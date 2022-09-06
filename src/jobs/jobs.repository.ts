@@ -8,11 +8,14 @@ import { Skill } from 'src/skills/model/skill.model';
 import { MssqlService } from 'src/shared/database/mssql.service';
 
 @Injectable()
-export class JobsRepository  {
+export class JobsRepository {
   constructor(private db: MssqlService) {}
-  
-  async getBasicJobDetails(jobId: number): Promise<JobDetails> {
-    const inputParams = [{ name: 'jobId', value: jobId }];
+
+  async getBasicJobDetails(jobId: number, userId: number): Promise<JobDetails> {
+    const inputParams = [
+      { name: 'jobId', value: jobId },
+      { name: 'userId', value: userId },
+    ];
     const { result } = await this.db.execProcedure(
       Procedure.JOB_GET_DETAILS,
       inputParams,
@@ -83,7 +86,10 @@ export class JobsRepository  {
       { name: 'priceAmount', value: priceAmount },
       { name: 'tvpJobSkills', value: tvpJobSkills },
     ];
-    const { result } = await this.db.execProcedure(Procedure.JOB_CREATE, inputParams);
+    const { result } = await this.db.execProcedure(
+      Procedure.JOB_CREATE,
+      inputParams,
+    );
     return {};
   }
 
@@ -109,7 +115,10 @@ export class JobsRepository  {
       { name: 'contactEmail', value: contactEmail },
       { name: 'priceAmount', value: priceAmount },
     ];
-    const { result } = await this.db.execProcedure(Procedure.JOB_UPDATE, inputParams);
+    const { result } = await this.db.execProcedure(
+      Procedure.JOB_UPDATE,
+      inputParams,
+    );
     return {};
   }
 
@@ -167,6 +176,7 @@ export class JobsRepository  {
       PublisherProfilePic,
       PriceAmount,
       IsActive,
+      HasUserApplied
     } = queryResult;
     const jobDetails: JobDetails = {
       id: Id,
@@ -181,6 +191,7 @@ export class JobsRepository  {
       publishedByUserId: PublishedByUserId,
       sourceCodeLink: SourceCodeLink,
       isActive: IsActive,
+      hasUserApplied: HasUserApplied,
     };
     return jobDetails;
   }

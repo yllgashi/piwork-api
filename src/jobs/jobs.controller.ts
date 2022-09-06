@@ -38,8 +38,11 @@ export class JobsController {
 
   @Auth()
   @Get('/:id')
-  async getJobDetails(@Param('id') id: number): Promise<JobDetails> {
-    return await this.jobsService.getJobDetails(id);
+  async getJobDetails(
+    @Param('id') id: number,
+    @CurrentUser('userId') userId: number,
+  ): Promise<JobDetails> {
+    return await this.jobsService.getJobDetails(id, userId);
   }
 
   @Auth()

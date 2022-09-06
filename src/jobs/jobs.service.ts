@@ -21,9 +21,10 @@ export class JobsService {
     return await this.jobsRepository.filterJobs(title, skillId);
   }
 
-  async getJobDetails(jobId: number): Promise<JobDetails> {
+  async getJobDetails(jobId: number, userId: number): Promise<JobDetails> {
     let jobDetails: JobDetails = await this.jobsRepository.getBasicJobDetails(
       jobId,
+      userId,
     );
     jobDetails.requiredSkills = await this.jobsRepository.getJobRequiredSkills(
       jobId,

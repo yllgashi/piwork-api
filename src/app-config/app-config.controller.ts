@@ -14,7 +14,7 @@ export class AppConfigController {
   @Auth()
   @Get(':key')
   async getValue(@Param('key') key: string): Promise<any> {
-    return this.configService.getValue(key);
+    return await this.configService.getValue(key);
   }
 
   @Auth()

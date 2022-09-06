@@ -13,5 +13,6 @@ export class JobDetails {
   publisherProfilePic: string;
   priceAmount: number;
   isActive: boolean;
+  hasUserApplied: boolean;
   requiredSkills?: Skill[];
 }
