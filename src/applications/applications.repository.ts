@@ -80,6 +80,26 @@ export class ApplicationsRepository {
     return {};
   }
 
+  async addEmployerComment(
+    userId: number,
+    jobApplicationId: number,
+    comment: string,
+  ) {
+    console.log(userId);
+    console.log(jobApplicationId);
+    console.log(comment);
+    const inputParams = [
+      { name: 'userId', value: userId },
+      { name: 'jobApplicationId', value: jobApplicationId },
+      { name: 'comment', value: comment },
+    ];
+    const { result } = await this.db.execProcedure(
+      Procedure.JOB_APPLICATION_ADD_EMPLOYER_COMMENT,
+      inputParams,
+    );
+    return {};
+  }
+
   async chooseJobApplicationWinner(userId: number, jobApplicationId: number) {
     const inputParams = [
       { name: 'userId', value: userId },

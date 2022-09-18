@@ -5,6 +5,7 @@ import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
 import { JobApplication } from './model/job-application.model';
 import { ApplicationsService } from './applications.service';
 import { GetJobApplication } from './model/get-job-application.model';
+import { EmployerComment } from './model/employer-comment.model';
 
 @ApiBearerAuth()
 @ApiTags('Applications')
@@ -50,10 +51,23 @@ export class ApplicationsController {
     @CurrentUser('userId') userId: number,
     @Body() jobApplication: JobApplication,
   ) {
-    console.log(jobApplication);
     return await this.applicationsService.createJobApplication(
       userId,
       jobApplication,
+    );
+  }
+
+  @Auth()
+  @Post('employer-comment/:id')
+  async addEmployerComment(
+    @CurrentUser('userId') userId: number,
+    @Param('id') id: number,
+    @Body() model: EmployerComment,
+  ) {
+    return await this.applicationsService.addEmployerComment(
+      userId,
+      id,
+      model.comment,
     );
   }
 

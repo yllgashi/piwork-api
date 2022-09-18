@@ -17,10 +17,11 @@ export class Procedure {
   // applications
   static readonly JOB_APPLICATION_GET_BY_USER: string = 'Work.usp_JobApplication_GetByUser';
   static readonly JOB_APPLICATION_GET_BY_JOB_ID: string = 'Work.usp_JobApplication_GetByJobId';
-  static readonly JOB_APPLICATION_GET_ANNOUNCED_BY_USER: string = 'Work.usp_JobApplication_GetAnnouncedByUser'
-  static readonly JOB_APPLICATION_GET_DETAILS: string = 'Work.usp_JobApplication_GetDetails'
+  static readonly JOB_APPLICATION_GET_ANNOUNCED_BY_USER: string = 'Work.usp_JobApplication_GetAnnouncedByUser';
+  static readonly JOB_APPLICATION_GET_DETAILS: string = 'Work.usp_JobApplication_GetDetails';
   static readonly JOB_APPLICATION_CREATE: string = 'Work.usp_JobApplication_Insert';
   static readonly JOB_APPLICATION_DELETE: string = 'Work.usp_JobApplication_Delete';
+  static readonly JOB_APPLICATION_ADD_EMPLOYER_COMMENT: string = 'Work.usp_JobApplication_AddEmployerComment';
   static readonly JOB_APPLICATION_CHOOSE_WINNER: string = 'Work.usp_JobApplication_ChooseWinner';
   // app config
   static readonly CONFIG_INSERT: string = 'App.usp_Config_Insert';

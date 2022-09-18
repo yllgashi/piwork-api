@@ -11,9 +11,7 @@ export class ApplicationsService {
     return await this.applicationsRepository.getJobApplicationsByUser(userId);
   }
 
-  async getApplicationsByJobId(
-    jobId: number,
-  ): Promise<GetJobApplication[]> {
+  async getApplicationsByJobId(jobId: number): Promise<GetJobApplication[]> {
     return await this.applicationsRepository.getApplicationsByJobId(jobId);
   }
 
@@ -38,6 +36,14 @@ export class ApplicationsService {
 
   async deleteJobApplication(userId: number, id: number) {
     return await this.applicationsRepository.deleteJobApplication(userId, id);
+  }
+
+  async addEmployerComment(userId: number, id: number, comment: string) {
+    return await this.applicationsRepository.addEmployerComment(
+      userId,
+      id,
+      comment,
+    );
   }
 
   async chooseJobApplicationWinner(userId: number, id: number) {
